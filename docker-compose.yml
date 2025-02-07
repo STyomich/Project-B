@@ -1,0 +1,27 @@
+services:
+  sql:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: sqlserver-projectb
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password@1
+    ports:
+      - "1433:1433"
+    networks:
+      - app-network
+    volumes:
+      - sql-data:/var/opt/mssql
+
+  api:
+    build:
+      context: ./backend  # Build context is backend/
+      dockerfile: ../dockerfiles/Backend.Dockerfile  # Reference Dockerfile outside the context
+    container_name: backend-projectb
+    ports:
+      - "5000:5000"
+    networks:
+      - app-network
+networks:
+  app-network:
+volumes:
+  sql-data:
