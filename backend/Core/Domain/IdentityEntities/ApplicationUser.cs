@@ -6,5 +6,6 @@ namespace Core.Domain.IdentityEntities
     {
         public string? UserSurname { get; set; }
         public string? UserNickname { get; set; }
+        public string? AvatarUrl { get; set; }
     }
 }

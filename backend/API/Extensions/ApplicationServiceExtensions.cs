@@ -1,5 +1,7 @@
+using System.Reflection;
 using Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
+using FluentValidation.AspNetCore;
 
 namespace API.Extensions
 {
@@ -11,6 +13,8 @@ namespace API.Extensions
             {
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
+            services.AddFluentValidationAutoValidation();
+
             return services;
         }
     }
