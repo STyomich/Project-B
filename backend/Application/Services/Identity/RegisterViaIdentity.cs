@@ -2,6 +2,7 @@ using Application.Helpers;
 using AutoMapper;
 using Core.Domain.IdentityEntities;
 using Core.DTOs.Identity;
+using Core.Enums;
 using Infrastructure.DbContext;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
@@ -16,13 +17,11 @@ namespace Application.Services.Identity
         }
         public class Handler : IRequestHandler<Command, Result<UserDto>>
         {
-            private readonly DataContext _dataContext;
             private readonly UserManager<ApplicationUser> _userManager;
             private readonly IMapper _mapper;
             private readonly TokenService _tokenService;
-            public Handler(DataContext dataContext, UserManager<ApplicationUser> userManager, IMapper mapper, TokenService tokenService)
+            public Handler(UserManager<ApplicationUser> userManager, IMapper mapper, TokenService tokenService)
             {
-                _dataContext = dataContext;
                 _userManager = userManager;
                 _mapper = mapper;
                 _tokenService = tokenService;
@@ -36,11 +35,12 @@ namespace Application.Services.Identity
 
                 var user = _mapper.Map<ApplicationUser>(request.Values);
                 var result = await _userManager.CreateAsync(user, request.Values.Password);
-                // TODO: Implement appending user to role.
+                await _userManager.AddToRoleAsync(user, RolesEnum.User.ToString()); // Permanent add all users to User group.
 
                 if (result.Succeeded)
                 {
                     var userDto = _mapper.Map<UserDto>(user);
+                    userDto.Token = _tokenService.CreateToken(user);
                     return Result<UserDto>.Success(userDto);
                 }
 

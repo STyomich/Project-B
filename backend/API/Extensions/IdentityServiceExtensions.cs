@@ -2,6 +2,7 @@ using System.Text;
 using Core.Domain.IdentityEntities;
 using Infrastructure.DbContext;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 
 namespace API.Extensions
@@ -14,6 +15,7 @@ namespace API.Extensions
                 opt.Password.RequireNonAlphanumeric = false;
                 opt.User.RequireUniqueEmail = true;
             })
+            .AddRoles<IdentityRole<Guid>>()
             .AddEntityFrameworkStores<DataContext>();
 
             var tokenKey = config["TokenKey"] ?? throw new ArgumentNullException("TokenKey is not configured.");
