@@ -36,18 +36,18 @@ namespace Infrastructure.DbContext
                 .WithOne(c => c.CarTopic)
                 .HasForeignKey(car => car.CarTopicId);
             builder.Entity<CarDocuments>()
-                .HasOne(d => d.Car)
+                .HasOne(cd => cd.Car)
                 .WithOne(c => c.CarDocuments)
-                .HasForeignKey<Car>(car => car.CarDocumentsId);
+                .HasForeignKey<CarDocuments>(cd => cd.CarId);
             builder.Entity<Organization>()
                 .HasMany(o => o.OrganizationPins)
                 .WithOne(op => op.Organization)
                 .HasForeignKey(op => op.OrganizationId);
             builder.Entity<OrganizationPin>(x => x.HasKey(op => new { op.OrganizationId, op.UserId }));
             builder.Entity<RegistrationPlate>()
-                .HasOne(o => o.Car)
+                .HasOne(rp => rp.Car)
                 .WithOne(c => c.RegistrationPlate)
-                .HasForeignKey<Car>(car => car.RegistrationPlateId);
+                .HasForeignKey<RegistrationPlate>(rp => rp.CarId);
         }
     }
 }

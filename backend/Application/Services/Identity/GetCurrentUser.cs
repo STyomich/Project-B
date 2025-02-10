@@ -3,6 +3,7 @@ using Application.Helpers;
 using AutoMapper;
 using Core.Domain.IdentityEntities;
 using Core.DTOs.Identity;
+using Core.Enums;
 using MediatR;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -36,7 +37,7 @@ namespace Application.Services.Identity
                 if (user != null)
                 {
                     string role = "User";
-                    if (await _userManager.IsInRoleAsync(user, "Admin"))
+                    if (await _userManager.IsInRoleAsync(user, RolesEnum.Administrator.ToString()))
                         role = "Administrator";
                     var userDto = _mapper.Map<UserDto>(user);
                     userDto.Token = _tokenService.CreateToken(user);
