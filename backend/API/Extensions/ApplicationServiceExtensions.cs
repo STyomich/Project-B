@@ -2,6 +2,7 @@ using System.Reflection;
 using Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
+using Application.Helpers;
 
 namespace API.Extensions
 {
@@ -14,6 +15,7 @@ namespace API.Extensions
                 options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
             });
             services.AddFluentValidationAutoValidation();
+            services.AddAutoMapper(typeof(MappingProfiles).GetTypeInfo().Assembly);
 
             return services;
         }
