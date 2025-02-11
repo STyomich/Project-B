@@ -10,14 +10,21 @@ namespace Application.Helpers
     {
         public MappingProfiles()
         {
+            // User
             CreateMap<RegisterViaIdentityValues, ApplicationUser>();
             CreateMap<ApplicationUser, UserDto>();
-
+            
+            // Car
             CreateMap<Car, CarDto>();
             CreateMap<CarDto, Car>();
             CreateMap<Car, CarListItemDto>()
                 .ForMember(dest => dest.CarMainImage, opt => opt.MapFrom(src => src.CarImages != null ? src.CarImages.Where(img => img.isMain) : null))
                 .ForMember(dest => dest.CarTopic, opt => opt.MapFrom(src => src.CarTopic));;
+            CreateMap<Car, CarDetailsDto>();
+            
+            // CarTopic
+            CreateMap<CarTopic, CarTopicDto>();
+            CreateMap<CarTopicDto, CarTopic>();
         }
     }
 }
