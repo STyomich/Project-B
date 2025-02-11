@@ -13,6 +13,8 @@ namespace Application.Helpers
             // User
             CreateMap<RegisterViaIdentityValues, ApplicationUser>();
             CreateMap<ApplicationUser, UserDto>();
+            CreateMap<UserDto, ApplicationUser>();
+            CreateMap<ApplicationUser, UserListItemDto>();
             
             // Car
             CreateMap<Car, CarDto>();
