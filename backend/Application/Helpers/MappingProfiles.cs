@@ -27,6 +27,10 @@ namespace Application.Helpers
             // CarTopic
             CreateMap<CarTopic, CarTopicDto>();
             CreateMap<CarTopicDto, CarTopic>();
+
+            // RegistrationPlate
+            CreateMap<RegistrationPlate, RegistrationPlateDto>();
+            CreateMap<RegistrationPlateDto, RegistrationPlate>();
         }
     }
 }

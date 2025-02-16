@@ -3,6 +3,8 @@ using Infrastructure.DbContext;
 using Microsoft.EntityFrameworkCore;
 using FluentValidation.AspNetCore;
 using Application.Helpers;
+using Application.Interfaces;
+using Application.Services.RegistrationPlateService;
 
 namespace API.Extensions
 {
@@ -16,6 +18,8 @@ namespace API.Extensions
             });
             services.AddFluentValidationAutoValidation();
             services.AddAutoMapper(typeof(MappingProfiles).GetTypeInfo().Assembly);
+            services.AddMediatR(cfg => cfg.RegisterServicesFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddTransient<IRegistrationPlateService, RegistrationPlateService>();
 
             return services;
         }

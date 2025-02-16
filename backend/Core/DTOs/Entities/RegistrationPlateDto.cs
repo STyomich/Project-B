@@ -5,6 +5,7 @@ namespace Core.DTOs.Entities
     public class RegistrationPlateDto
     {
         public Guid Id { get; set; }
+        public Guid CarId { get; set; }
         public string? Country { get; set; } // Ukraine
         public string? Text { get; set; } // AX1234C
     }
