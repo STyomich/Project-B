@@ -1,4 +1,4 @@
-using Application.Services.Identity;
+using Application.Services.UserService;
 using Core.DTOs.Identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,16 +9,16 @@ namespace API.Controllers
     {
         [AllowAnonymous]
         [HttpPost("login")]
-        public async Task<ActionResult<UserDto>> Login(LoginViaIdentityValues values)
+        public async Task<ActionResult<UserDto>> Login(LoginValues values)
         {
-            var result = await Mediator.Send(new LoginViaIdentity.Query { Values = values });
+            var result = await Mediator.Send(new LoginUser.Query { Values = values });
             return HandleResult(result);
         }
         [AllowAnonymous]
         [HttpPost("register")]
-        public async Task<ActionResult<UserDto>> Register(RegisterViaIdentityValues values)
+        public async Task<ActionResult<UserDto>> Register(RegisterValues values)
         {
-            var result = await Mediator.Send(new RegisterViaIdentity.Command { Values = values });
+            var result = await Mediator.Send(new RegisterUser.Command { UserRegister = values });
             return HandleResult(result);
         }
         [HttpGet("current")]

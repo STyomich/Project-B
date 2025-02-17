@@ -18,7 +18,7 @@ services:
       dockerfile: ../dockerfiles/Backend.Dockerfile  # Reference Dockerfile outside the context
     container_name: backend-projectb
     ports:
-      - "5000:5000"
+      - "5000:8080"
     networks:
       - app-network
 networks:

@@ -2,7 +2,7 @@ using FluentValidation;
 
 namespace Core.DTOs.Identity
 {
-    public class RegisterViaIdentityValues
+    public class RegisterValues
     {
         public string? Email { get; set; }
         public string? UserNickname { get; set; }
@@ -10,7 +10,7 @@ namespace Core.DTOs.Identity
         public string? UserSurname { get; set; }
         public string? Password { get; set; }
     }
-    public class RegisterViaIdentityValuesValidator : AbstractValidator<RegisterViaIdentityValues>
+    public class RegisterViaIdentityValuesValidator : AbstractValidator<RegisterValues>
     {
         public RegisterViaIdentityValuesValidator()
         {

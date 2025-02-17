@@ -1,13 +1,14 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Application.Interfaces;
 using Core.Domain.IdentityEntities;
 using Microsoft.Extensions.Configuration;
 using Microsoft.IdentityModel.Tokens;
 
 namespace Application.Services.Identity
 {
-    public class TokenService
+    public class TokenService : ITokenService
     {
         private readonly IConfiguration _config;
         public TokenService(IConfiguration config)
@@ -21,7 +22,8 @@ namespace Application.Services.Identity
                 new Claim(ClaimTypes.Name, user.UserName ?? string.Empty),
                 new Claim("UserSurname", user.UserSurname ?? string.Empty),
                 new Claim("UserNickname", user.UserNickname ?? string.Empty),
-                new Claim(ClaimTypes.Email, user.Email ?? string.Empty)
+                new Claim(ClaimTypes.Email, user.Email ?? string.Empty),
+                new Claim(ClaimTypes.Role, user.Role?.Name ?? string.Empty)
             };
 
             var tokenKey = _config["TokenKey"] ?? throw new ArgumentNullException("TokenKey is not configured.");
@@ -31,7 +33,7 @@ namespace Application.Services.Identity
             var tokenDescriptor = new SecurityTokenDescriptor
             {
                 Subject = new ClaimsIdentity(Claims),
-                Expires = DateTime.Now.AddDays(7),
+                Expires = DateTime.Now.AddDays(3),
                 SigningCredentials = creds
             };
 

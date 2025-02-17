@@ -11,13 +11,6 @@ namespace API.Extensions
     {
         public static IServiceCollection AddIdentityServices(this IServiceCollection services, IConfiguration config)
         {
-            services.AddIdentityCore<ApplicationUser>(opt => {
-                opt.Password.RequireNonAlphanumeric = false;
-                opt.User.RequireUniqueEmail = true;
-            })
-            .AddRoles<IdentityRole<Guid>>()
-            .AddEntityFrameworkStores<DataContext>();
-
             var tokenKey = config["TokenKey"] ?? throw new ArgumentNullException("TokenKey is not configured.");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(tokenKey));
             services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(opt =>{
@@ -28,6 +21,7 @@ namespace API.Extensions
                     ValidateAudience = false
                 };
             });
+            services.AddAuthorization();
             return services;
         }
     }

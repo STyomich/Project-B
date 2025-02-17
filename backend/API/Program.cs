@@ -8,6 +8,11 @@ builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
 
+app.MapControllers();
+
+app.UseAuthentication();
+app.UseAuthorization();
+
 // Seed data.
 using (var scope = app.Services.CreateAsyncScope())
 {

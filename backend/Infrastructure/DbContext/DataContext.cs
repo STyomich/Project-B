@@ -1,17 +1,17 @@
 using Core.Domain.Entities;
 using Core.Domain.IdentityEntities;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace Infrastructure.DbContext
 {
-    public class DataContext : IdentityDbContext<ApplicationUser, IdentityRole<Guid>, Guid>
+    public class DataContext : Microsoft.EntityFrameworkCore.DbContext
     {
         public DataContext(DbContextOptions options) : base(options)
         {
 
         }
+        public DbSet<ApplicationUser> Users { get; set; }
+        public DbSet<Role> Roles { get; set; }
         public DbSet<Car> Cars { get; set; }
         public DbSet<CarImage> CarImages { get; set; }
         public DbSet<CarTopic> CarTopics { get; set; }
@@ -22,6 +22,11 @@ namespace Infrastructure.DbContext
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<ApplicationUser>()
+                .HasOne(au => au.Role)
+                .WithMany(r => r.Users)
+                .HasForeignKey(au => au.RoleId);
 
             builder.Entity<Car>()
                 .HasMany(c => c.CarImages)

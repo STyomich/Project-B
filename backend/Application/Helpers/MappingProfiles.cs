@@ -11,7 +11,7 @@ namespace Application.Helpers
         public MappingProfiles()
         {
             // User
-            CreateMap<RegisterViaIdentityValues, ApplicationUser>();
+            CreateMap<RegisterValues, ApplicationUser>();
             CreateMap<ApplicationUser, UserDto>();
             CreateMap<UserDto, ApplicationUser>();
             CreateMap<ApplicationUser, UserListItemDto>();
