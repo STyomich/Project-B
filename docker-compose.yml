@@ -21,6 +21,20 @@ services:
       - "5000:8080"
     networks:
       - app-network
+  frontend:
+    build:
+      context: ./frontend  # Build context is frontend/
+      dockerfile: ../dockerfiles/Frontend.Dockerfile  # Reference Dockerfile outside the context
+    container_name: frontend-projectb
+    ports:
+      - "3000:3000"
+    networks:
+      - app-network
+    depends_on:
+      - api
+    environment:
+      - NODE_ENV=production
+      - REACT_APP_API_URL=http://api:8080
 networks:
   app-network:
 volumes:
