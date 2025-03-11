@@ -1,4 +1,4 @@
-import "../assets/css/styles.css";
+import { Link } from "react-router-dom";
 import Logo from "./Logo";
 
 export default function Header() {
@@ -8,9 +8,11 @@ export default function Header() {
         <div className="max-w-screen-xl mx-auto flex justify-between items-center">
           {/* Left side buttons (Functionality) */}
           <div className="flex space-x-4">
-            <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Home
-            </button>
+            <Link to="/home">
+              <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+                Home
+              </button>
+            </Link>
             <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
               Auctions
             </button>
