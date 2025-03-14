@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom";
 import Logo from "./Logo";
+import ProfileButtonsGroup from "./ProfileButtonsGroup";
 
 export default function Header() {
   return (
@@ -25,14 +26,7 @@ export default function Header() {
           <Logo />
 
           {/* Right side buttons (Profile) */}
-          <div className="flex space-x-4">
-            <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Profile
-            </button>
-            <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Logout
-            </button>
-          </div>
+          <ProfileButtonsGroup />
         </div>
       </header>
 
