@@ -40,6 +40,10 @@ namespace Application.Services.UserService
 
                 var userDto = new UserDto
                 {
+                    Avatar = user.AvatarUrl,
+                    UserNickname = user.UserNickname,
+                    UserName = user.UserName,
+                    UserSurname = user.UserSurname,
                     Email = user.Email,
                     Token = _tokenService.CreateToken(user),
                     Role = user.Email != null ? (await _userService.GetRoleByEmail(user.Email)).Value : string.Empty

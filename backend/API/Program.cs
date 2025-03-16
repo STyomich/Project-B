@@ -3,10 +3,12 @@ using Infrastructure.Seed;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddApplicationServices(builder.Configuration);
+builder.Services.AddApplicationServices(builder);
 builder.Services.AddIdentityServices(builder.Configuration);
 
 var app = builder.Build();
+
+app.UseCors("Frontend");
 
 app.MapControllers();
 

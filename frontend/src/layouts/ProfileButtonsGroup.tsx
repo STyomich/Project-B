@@ -8,7 +8,7 @@ export default function ProfileButtonsGroup() {
   const { user } = useAppSelector((state) => state.user);
 
   useEffect(() => {
-    if (user) {
+    if (!user) {
       dispatch(getUser());
     }
   }, [dispatch, user]);
@@ -17,9 +17,19 @@ export default function ProfileButtonsGroup() {
     <div className="flex space-x-4">
       {user ? (
         <>
-          <img src={user.avatarUrl} className="w-10 h-10 rounded-full" />
-          <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-            {user.userNickname}
+          <button className="flex">
+            {user.avatarUrl ? (
+              <img src={user.avatarUrl} className="w-10 h-10 rounded-full" />
+            ) : (
+              <img
+                src="/assets/images/stock_avatar.jpg"
+                className="w-10 h-10 rounded-full"
+              />
+            )}
+
+            <label className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+              {user.userNickname}
+            </label>
           </button>
           <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
             Logout

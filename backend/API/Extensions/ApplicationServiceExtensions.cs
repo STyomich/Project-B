@@ -16,11 +16,25 @@ namespace API.Extensions
 {
     public static class ApplicationServiceExtensions
     {
-        public static IServiceCollection AddApplicationServices(this IServiceCollection services, IConfiguration config)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services, WebApplicationBuilder builder)
         {
+            services.AddCors(options =>
+            {
+                options.AddPolicy("Frontend",
+                    policy =>
+                    {
+                        policy.WithOrigins("http://localhost:3000", "https://localhost:3000")
+                            .AllowAnyMethod()
+                            .AllowAnyHeader()
+                            .AllowCredentials();
+                    });
+            });
+
+            var connectionString = builder.Configuration.GetConnectionString(builder.Environment.IsDevelopment() ? "DevelopmentConnection" : "ProductionConnection");
+
             services.AddDbContext<DataContext>(options =>
             {
-                options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+                options.UseSqlServer(connectionString);
             });
             services.AddFluentValidationAutoValidation();
             services.AddAutoMapper(typeof(MappingProfiles).GetTypeInfo().Assembly);
@@ -28,7 +42,8 @@ namespace API.Extensions
             {
                 cfg.RegisterServicesFromAssembly(typeof(RegisterUser).Assembly);
             });
-            services.AddControllers(opt => {
+            services.AddControllers(opt =>
+            {
                 var policy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
                 opt.Filters.Add(new AuthorizeFilter(policy));
             });
