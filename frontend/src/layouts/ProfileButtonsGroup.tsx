@@ -17,21 +17,26 @@ export default function ProfileButtonsGroup() {
     <div className="flex space-x-4">
       {user ? (
         <>
-          <button className="flex">
-            {user.avatarUrl ? (
-              <img src={user.avatarUrl} className="w-10 h-10 rounded-full" />
-            ) : (
-              <img
-                src="/assets/images/stock_avatar.jpg"
-                className="w-10 h-10 rounded-full"
-              />
-            )}
+          <Link to="/user-profile">
+            <button className="flex">
+              {user.avatarUrl ? (
+                <img src={user.avatarUrl} className="w-10 h-10 rounded-full" />
+              ) : (
+                <img
+                  src="/assets/images/stock_avatar.jpg"
+                  className="w-10 h-10 rounded-full"
+                />
+              )}
 
-            <label className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              {user.userNickname}
-            </label>
-          </button>
-          <button onClick={() => dispatch(logout())} className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+              <label className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+                {user.userNickname}
+              </label>
+            </button>
+          </Link>
+          <button
+            onClick={() => dispatch(logout())}
+            className="text-white font-semibold hover:text-gray-400 p-2 rounded"
+          >
             Logout
           </button>
         </>
