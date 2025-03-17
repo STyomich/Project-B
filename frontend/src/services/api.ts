@@ -3,7 +3,7 @@ import store from "../stores";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL as string;
 
-const responseBody = <T>(response: AxiosResponse<T>) => response.data;
+const response = <T>(response: AxiosResponse<T>) => response;
 
 axios.interceptors.request.use(
   (config) => {
@@ -20,12 +20,12 @@ axios.interceptors.request.use(
 );
 
 const requests = {
-  get: <T>(url: string) => axios.get<T>(url).then(responseBody),
+  get: <T>(url: string) => axios.get<T>(url).then(response).catch((error) => Promise.reject(error)),
   post: <T>(url: string, body: NonNullable<unknown>) =>
-    axios.post<T>(url, body).then(responseBody),
+    axios.post<T>(url, body).then(response).catch((error) => Promise.reject(error)),
   put: <T>(url: string, body: NonNullable<unknown>) =>
-    axios.put<T>(url, body).then(responseBody),
-  delete: <T>(url: string) => axios.delete<T>(url).then(responseBody),
+    axios.put<T>(url, body).then(response).catch((error) => Promise.reject(error)),
+  delete: <T>(url: string) => axios.delete<T>(url).then(response).catch((error) => Promise.reject(error)),
 };
 
 const User = {

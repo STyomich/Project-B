@@ -1,6 +1,6 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
-import { getUser } from "../stores/features/user/userSlice";
+import { getUser, logout } from "../stores/features/user/userSlice";
 import { Link } from "react-router-dom";
 
 export default function ProfileButtonsGroup() {
@@ -31,7 +31,7 @@ export default function ProfileButtonsGroup() {
               {user.userNickname}
             </label>
           </button>
-          <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+          <button onClick={() => dispatch(logout())} className="text-white font-semibold hover:text-gray-400 p-2 rounded">
             Logout
           </button>
         </>

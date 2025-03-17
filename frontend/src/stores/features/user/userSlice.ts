@@ -2,6 +2,7 @@ import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { setToken } from "../auth/authSlice";
 import { User, UserLoginValues } from "../../../types/user";
 import api from "../../../services/api";
+import { AxiosResponse } from "axios";
 
 interface UserState {
   user: User | null;
@@ -23,14 +24,14 @@ const userSlice = createSlice({
   },
   extraReducers: (builder) => {
     builder
-      .addCase(login.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
+      .addCase(login.fulfilled, (state, action: PayloadAction<AxiosResponse>) => {
+        state.user = action.payload.data;
       })
-      .addCase(register.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
+      .addCase(register.fulfilled, (state, action: PayloadAction<AxiosResponse>) => {
+        state.user = action.payload.data;
       })
-      .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
-        state.user = action.payload;
+      .addCase(getUser.fulfilled, (state, action: PayloadAction<AxiosResponse>) => {
+        state.user = action.payload.data;
       });
   },
 });
@@ -38,18 +39,20 @@ const userSlice = createSlice({
 export const login = createAsyncThunk(
   "user/login",
   async (values: UserLoginValues, { dispatch }) => {
-    const user: User = (await api.User.login(values)) as User;
-    dispatch(setToken(user.token));
-    return user;
+    const response: AxiosResponse = (await api.User.login(values)) as AxiosResponse;
+    if(response.status === 200)
+    dispatch(setToken(response.data.token));
+    return response;
   }
 );
 
 export const register = createAsyncThunk(
   "user/register",
   async (values: UserLoginValues, { dispatch }) => {
-    const user: User = (await api.User.register(values)) as User;
-    dispatch(setToken(user.token));
-    return user;
+    const response: AxiosResponse = (await api.User.register(values)) as AxiosResponse;
+    if(response.status === 200)
+    dispatch(setToken(response.data.token));
+    return response;
   }
 );
 
@@ -62,11 +65,13 @@ export const logout = createAsyncThunk(
   }
 );
 
-export const getUser = createAsyncThunk<User, void>(
+export const getUser = createAsyncThunk(
   "user/getUser",
-  async (): Promise<User> => {
-    return (await api.User.current()) as User;
+  async () => {
+    const response: AxiosResponse = await api.User.current();
+    return response.data;
   }
 );
+
 
 export default userSlice.reducer;

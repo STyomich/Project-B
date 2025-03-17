@@ -17,6 +17,8 @@ services:
       context: ./backend  # Build context is backend/
       dockerfile: ../dockerfiles/Backend.Dockerfile  # Reference Dockerfile outside the context
     container_name: backend-projectb
+    depends_on:
+      - sql
     ports:
       - "5000:8080"
     networks:

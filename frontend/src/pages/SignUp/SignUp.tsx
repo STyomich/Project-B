@@ -29,7 +29,7 @@ export default function SignUp() {
       <h1 className="text-4xl font-bold">Sign Up</h1>
       <div className="bg-white p-6 shadow-lg rounded-lg mt-6">
         <h2 className="font-semibold text-2xl space-y-4">
-          Enter your data to register you into system.
+          Enter your credentials to register you into system.
         </h2>
         <Formik
           initialValues={{
