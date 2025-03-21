@@ -28,7 +28,11 @@ namespace Application.Services.UserService
                 if (request.File == null)
                     return Result<string>.Failure("File cannot be null");
 
+                if (request.User == null)
+                    return Result<string>.Failure("User cannot be null");
+
                 var email = request.User.Claims.FirstOrDefault(c => c.Type == ClaimTypes.Email)?.Value;
+
                 if (email == null)
                     return Result<string>.Failure("User email cannot be null");
 
