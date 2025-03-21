@@ -5,6 +5,7 @@ using AutoMapper;
 using Core.Domain.IdentityEntities;
 using Core.DTOs.Identity;
 using Infrastructure.DbContext;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.Identity
@@ -14,11 +15,13 @@ namespace Application.Services.Identity
         private readonly UserRepository _userRepository;
         private readonly IMapper _mapper;
         private readonly DataContext _dataContext;
-        public UserService(UserRepository userRepository, DataContext dataContext, IMapper mapper)
+        private readonly IImageService _imageService;
+        public UserService(UserRepository userRepository, DataContext dataContext, IMapper mapper, IImageService imageService)
         {
             _userRepository = userRepository;
             _dataContext = dataContext;
             _mapper = mapper;
+            _imageService = imageService;
         }
         public async Task<Result<ApplicationUser>> RegisterUserAsync(RegisterValues userRegister, string role)
         {
@@ -55,6 +58,28 @@ namespace Application.Services.Identity
                 return Result<ApplicationUser>.Failure("Invalid password");
 
             return Result<ApplicationUser>.Success(user);
+        }
+        public async Task<Result<string>> UpdateAvatarAsync(IFormFile file, string email)
+        {
+            try
+            {
+                var uploadResult = await _imageService.AddImageAsync(file);
+
+                var user = await _dataContext.Users.FirstOrDefaultAsync(u => u.Email == email);
+                if (user != default)
+                {
+                    user.AvatarUrl = uploadResult.Url.ToString();
+                    await _dataContext.SaveChangesAsync();
+                }
+                if (user != null && user.AvatarUrl != null)
+                    return Result<string>.Success(user.AvatarUrl);
+                else
+                    return Result<string>.Failure("Error updating avatar");
+            }
+            catch (Exception e)
+            {
+                return Result<string>.Failure(e.Message);
+            }
         }
         public async Task<Result<string>> GetRoleByEmail(string email)
         {

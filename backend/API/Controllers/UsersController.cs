@@ -21,6 +21,12 @@ namespace API.Controllers
             var result = await Mediator.Send(new RegisterUser.Command { UserRegister = values });
             return HandleResult(result);
         }
+        [HttpPost("update-avatar")]
+        public async Task<ActionResult<UserDto>> UpdateAvatar([FromForm] IFormFile file)
+        {
+            var result = await Mediator.Send(new UpdateAvatar.Command { File = file });
+            return HandleResult(result);
+        }
         [HttpGet("current")]
         public async Task<ActionResult<UserDto>> GetCurrentUser()
         {
