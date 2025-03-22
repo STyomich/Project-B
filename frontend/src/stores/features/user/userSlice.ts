@@ -39,11 +39,19 @@ const userSlice = createSlice({
         }
       )
       .addCase(
-        getUser.fulfilled,
-        (state, action: PayloadAction<AxiosResponse>) => {
-          state.user = action.payload.data;
+        updateAvatar.fulfilled,
+        (
+          state,
+          action: PayloadAction<{ data: User; status: number } | undefined>
+        ) => {
+          if (state.user && action.payload && action.payload.data) {
+            state.user = action.payload.data;
+          }
         }
-      );
+      )
+      .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
+        state.user = action.payload;
+      });
   },
 });
 
@@ -66,6 +74,18 @@ export const register = createAsyncThunk(
     )) as AxiosResponse;
     if (response.status === 200) dispatch(setToken(response.data.token));
     return { data: response.data, status: response.status };
+  }
+);
+
+export const updateAvatar = createAsyncThunk(
+  "user/updateAvatar",
+  async (formData: FormData) => {
+    const response: AxiosResponse = (await api.User.updateAvatar(
+      formData
+    )) as AxiosResponse;
+    if (response.status === 200) {
+      return { data: response.data as User, status: response.status as number };
+    }
   }
 );
 

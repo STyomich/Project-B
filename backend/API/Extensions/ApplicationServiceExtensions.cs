@@ -11,6 +11,8 @@ using Application.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Application.Services.UserService;
+using Application.Services.ImageService;
+using Infrastructure.Images;
 
 namespace API.Extensions
 {
@@ -52,6 +54,8 @@ namespace API.Extensions
             services.AddTransient<ICarImageService, CarImageService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IImageService, ImageService>();
+            services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
             services.AddScoped<UserRepository>();
 
             return services;

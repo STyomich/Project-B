@@ -19,8 +19,8 @@ export default function ProfileButtonsGroup() {
         <>
           <Link to="/user-profile">
             <button className="flex">
-              {user.avatarUrl ? (
-                <img src={user.avatarUrl} className="w-10 h-10 rounded-full" />
+              {user.avatar ? (
+                <img src={user.avatar} className="w-10 h-10 rounded-full" />
               ) : (
                 <img
                   src="/assets/images/stock_avatar.jpg"

@@ -20,12 +20,26 @@ axios.interceptors.request.use(
 );
 
 const requests = {
-  get: <T>(url: string) => axios.get<T>(url).then(response).catch((error) => Promise.reject(error)),
-  post: <T>(url: string, body: NonNullable<unknown>) =>
-    axios.post<T>(url, body).then(response).catch((error) => Promise.reject(error)),
+  get: <T>(url: string) =>
+    axios
+      .get<T>(url)
+      .then(response)
+      .catch((error) => Promise.reject(error)),
+  post: <T>(url: string, body: NonNullable<unknown>, config?: object) =>
+    axios
+      .post<T>(url, body, config)
+      .then(response)
+      .catch((error) => Promise.reject(error)),
   put: <T>(url: string, body: NonNullable<unknown>) =>
-    axios.put<T>(url, body).then(response).catch((error) => Promise.reject(error)),
-  delete: <T>(url: string) => axios.delete<T>(url).then(response).catch((error) => Promise.reject(error)),
+    axios
+      .put<T>(url, body)
+      .then(response)
+      .catch((error) => Promise.reject(error)),
+  delete: <T>(url: string) =>
+    axios
+      .delete<T>(url)
+      .then(response)
+      .catch((error) => Promise.reject(error)),
 };
 
 const User = {
@@ -34,10 +48,16 @@ const User = {
     requests.post("/users/login", body),
   register: (body: { email: string; password: string }) =>
     requests.post("/users/register", body),
+  updateAvatar: (formData: FormData) =>
+    requests.post("/users/update-avatar", formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
 };
 
 const api = {
-    User,
+  User,
 };
 
 export default api;

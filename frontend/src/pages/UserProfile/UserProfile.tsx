@@ -1,26 +1,84 @@
-import { useAppSelector } from "../../stores/hooks";
+import { useState, useRef } from "react";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { updateAvatar } from "../../stores/features/user/userSlice";
+import { User } from "../../types/user";
 
 export default function UserProfile() {
   const { user } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
+  const [preview, setPreview] = useState<string | null>(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
+
+  const handleAvatarClick = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);
+      setPreview(URL.createObjectURL(file));
+    }
+  };
+
+  const handleUpload = async () => {
+    if (!selectedFile) return;
+
+    const formData = new FormData();
+    formData.append("file", selectedFile);
+
+    try {
+      const response = (await dispatch(updateAvatar(formData)).unwrap()) as {
+        data: User;
+        status: number;
+      };
+      if (response.status === 200) {
+        alert("Avatar uploaded successfully.");
+      }
+    } catch (error) {
+      console.error(error);
+      alert("Error uploading avatar.");
+    }
+  };
 
   return (
     <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen fade-in">
       <div className="flex flex-row bg-white p-6 rounded-2xl shadow-lg w-full max-w-8/12">
         <div>
-          <div className="relative inline-block group">
+          <div
+            className="relative inline-block group"
+            onClick={handleAvatarClick}
+          >
             <img
               src={
-                user?.avatarUrl
-                  ? user.avatarUrl
-                  : "/assets/images/stock_avatar.jpg"
+                preview || user?.avatar || "/assets/images/stock_avatar.jpg"
               }
               alt="User Avatar"
-              className="w-32 h-32 rounded-full border-4 border-gray-500 transition-all duration-300 group-hover:brightness-50"
+              className="w-32 h-32 rounded-full border-4 border-gray-500 transition-all duration-300 group-hover:brightness-50 cursor-pointer"
             />
             <span className="absolute inset-0 font-semibold flex items-center justify-center text-white text-lg opacity-0 group-hover:opacity-100 transition-opacity">
               Change
             </span>
           </div>
+
+          {/* Hidden file input */}
+          <input
+            type="file"
+            accept="image/*"
+            ref={fileInputRef}
+            className="hidden"
+            onChange={handleFileChange}
+          />
+
+          {selectedFile && (
+            <button
+              onClick={handleUpload}
+              className="mt-2 bg-blue-500 text-white px-4 py-2 rounded hover:bg-blue-600"
+            >
+              Upload Avatar
+            </button>
+          )}
 
           <h2 className="text-xl font-semibold mt-4">
             {user?.userName} {user?.userSurname}
