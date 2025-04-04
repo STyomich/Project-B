@@ -1,0 +1,48 @@
+import { useEffect } from "react";
+import { getUsersCars } from "../../stores/features/user/userSlice";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { CarListItemDto } from "../../types/car";
+
+interface UserCarsProps {
+  userId: string;
+}
+
+export default function UserCars({ userId }: UserCarsProps) {
+  const { carList } = useAppSelector((state) => state.user);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    dispatch(getUsersCars(userId));
+  }, [userId, dispatch]);
+
+  return (
+    <div className="flex flex-col items-center bg-gray-100 p-4 fade-in">
+      <div className="bg-white p-6 shadow-lg rounded-lg mt-6 w-full">
+        {carList && carList.length > 0 ? (
+          <div className="flex flex-wrap gap-4 justify-center">
+            {carList.map((car: CarListItemDto) => (
+              <div
+                key={car.id}
+                className="flex flex-col items-center bg-gray-200 p-4 rounded-lg w-60"
+              >
+                <img
+                  src={car.carTopic.imageLogoUrl}
+                  alt={`${car.carTopic.carName} ${car.carTopic.carModel}`}
+                  className="w-full h-32 object-cover rounded-md mb-2"
+                />
+                <h3 className="text-lg font-semibold">
+                  {car.carTopic.carName}
+                </h3>
+                <p className="text-sm text-gray-600">{car.carTopic.carModel}</p>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <h2 className="text-center text-gray-500">
+            User doesn't have any cars
+          </h2>
+        )}
+      </div>
+    </div>
+  );
+}

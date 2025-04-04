@@ -2,6 +2,7 @@ import { useState, useRef } from "react";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { updateAvatar } from "../../stores/features/user/userSlice";
 import { User } from "../../types/user";
+import UserCars from "./UserCars";
 
 export default function UserProfile() {
   const { user } = useAppSelector((state) => state.user);
@@ -98,6 +99,7 @@ export default function UserProfile() {
         <div className="ml-8 w-4/5">
           <div>
             <h1 className="text-3xl font-bold mb-6">Your cars:</h1>
+            {user && <UserCars userId={user.id} />}
           </div>
           <div>
             <h1 className="text-3xl font-bold mb-6">Your auction history:</h1>

@@ -3,14 +3,17 @@ import { setToken } from "../auth/authSlice";
 import { User, UserLoginValues, UserRegisterValues } from "../../../types/user";
 import api from "../../../services/api";
 import { AxiosResponse } from "axios";
+import { CarListItemDto } from "../../../types/car";
 
 interface UserState {
   user: User | null;
+  carList: CarListItemDto[] | null;
   loading: boolean;
 }
 
 const initialState: UserState = {
   user: null,
+  carList: null,
   loading: false,
 };
 
@@ -51,7 +54,13 @@ const userSlice = createSlice({
       )
       .addCase(getUser.fulfilled, (state, action: PayloadAction<User>) => {
         state.user = action.payload;
-      });
+      })
+      .addCase(
+        getUsersCars.fulfilled,
+        (state, action: PayloadAction<CarListItemDto[]>) => {
+          state.carList = action.payload;
+        }
+      );
   },
 });
 
@@ -102,5 +111,13 @@ export const getUser = createAsyncThunk("user/getUser", async () => {
   const response: AxiosResponse = await api.User.current();
   return response.data;
 });
+
+export const getUsersCars = createAsyncThunk(
+  "user/cars/getUsersCars",
+  async (userId: string) => {
+    const response: AxiosResponse = await api.Car.getUsersCars(userId);
+    return response.data;
+  }
+);
 
 export default userSlice.reducer;

@@ -56,8 +56,13 @@ const User = {
     }),
 };
 
+const Car = {
+  getUsersCars: (userId: string) => requests.get(`/cars/users-cars/${userId}`),
+};
+
 const api = {
   User,
+  Car
 };
 
 export default api;
