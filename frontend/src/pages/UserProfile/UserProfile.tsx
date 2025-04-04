@@ -3,6 +3,7 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { updateAvatar } from "../../stores/features/user/userSlice";
 import { User } from "../../types/user";
 import UserCars from "./UserCars";
+import { Link } from "react-router-dom";
 
 export default function UserProfile() {
   const { user } = useAppSelector((state) => state.user);
@@ -52,9 +53,7 @@ export default function UserProfile() {
             onClick={handleAvatarClick}
           >
             <img
-              src={
-                preview || user?.avatar || "/assets/images/stock_avatar.jpg"
-              }
+              src={preview || user?.avatar || "/assets/images/stock_avatar.jpg"}
               alt="User Avatar"
               className="w-32 h-32 rounded-full border-4 border-gray-500 transition-all duration-300 group-hover:brightness-50 cursor-pointer"
             />
@@ -87,18 +86,17 @@ export default function UserProfile() {
           <p className="text-gray-600">@{user?.userNickname}</p>
           <p className="mt-2 text-gray-700">{user?.email}</p>
           <p className="text-blue-400">Your documents</p>
-          <div className="mt-4 flex justify-center space-x-4">
-            <button className="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600">
-              Follow
-            </button>
-            <button className="px-4 py-2 border border-gray-300 rounded-lg hover:bg-gray-200">
-              Message
-            </button>
-          </div>
         </div>
         <div className="ml-8 w-4/5">
           <div>
-            <h1 className="text-3xl font-bold mb-6">Your cars:</h1>
+            <div className="flex items-center justify-between mb-6">
+              <h1 className="text-3xl font-bold">Your cars:</h1>
+              <Link to="/add-new-car">
+              <button className="px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white font-semibold p-2 rounded">
+                Add a new car
+              </button>
+              </Link>
+            </div>
             {user && <UserCars userId={user.id} />}
           </div>
           <div>

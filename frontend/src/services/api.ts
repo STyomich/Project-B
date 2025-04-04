@@ -59,10 +59,15 @@ const User = {
 const Car = {
   getUsersCars: (userId: string) => requests.get(`/cars/users-cars/${userId}`),
 };
+const CarTopic = {
+  getCarTopics: (carName:string, carModel:string) => requests.get(`/car-topics?carName=${carName}&carModel=${carModel}`),
+  getCarTopicById: (id: string) => requests.get(`/car-topics/${id}`),
+};
 
 const api = {
   User,
-  Car
+  Car,
+  CarTopic
 };
 
 export default api;

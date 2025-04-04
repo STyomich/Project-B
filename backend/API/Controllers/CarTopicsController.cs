@@ -27,5 +27,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new GetCarTopicDetailsById.Query { CarTopicId = id }));
         }
+        [HttpGet("car-topics")]
+        public async Task<IActionResult> GetCarTopics(string carName, string carModel)
+        {
+            return HandleResult(await Mediator.Send(new GetCarTopics.Query { CarName = carName, CarModel = carModel }));
+        }
     }
 }
