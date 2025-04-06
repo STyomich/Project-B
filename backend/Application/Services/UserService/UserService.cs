@@ -95,6 +95,16 @@ namespace Application.Services.Identity
 
             return Result<string>.Success(user.Role.Name);
         }
+        public async Task<Result<Guid>> GetUserIdByNickname(string nickname)
+        {
+            var user = await _dataContext.Users
+                .FirstOrDefaultAsync(u => u.UserNickname == nickname);
+
+            if (user == null)
+                return Result<Guid>.Failure("User not found");
+
+            return Result<Guid>.Success(user.Id);
+        }
         private static string HashPassword(string password)
         {
             return BCrypt.Net.BCrypt.HashPassword(password);

@@ -4,16 +4,16 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { CarListItemDto } from "../../types/car";
 
 interface UserCarsProps {
-  userId: string;
+  nickname: string;
 }
 
-export default function UserCars({ userId }: UserCarsProps) {
+export default function UserCars({ nickname }: UserCarsProps) {
   const { carList } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    dispatch(getUsersCars(userId));
-  }, [userId, dispatch]);
+    dispatch(getUsersCars(nickname));
+  }, [nickname, dispatch]);
 
   return (
     <div className="flex flex-col items-center bg-gray-100 p-4 fade-in">

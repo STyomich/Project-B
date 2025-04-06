@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from "axios";
 import store from "../stores";
+import { CarFormData } from "../types/car";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL as string;
 
@@ -57,11 +58,13 @@ const User = {
 };
 
 const Car = {
-  getUsersCars: (userId: string) => requests.get(`/cars/users-cars/${userId}`),
+  getUsersCars: (nickname: string) => requests.get(`/cars/users-cars/${nickname}`),
+  createCarWithFormValues: (formData: CarFormData) =>
+    requests.post("/cars/form-values", formData),
 };
 const CarTopic = {
-  getCarTopics: (carName:string, carModel:string) => requests.get(`/car-topics?carName=${carName}&carModel=${carModel}`),
-  getCarTopicById: (id: string) => requests.get(`/car-topics/${id}`),
+  getCarTopics: (carName:string, carModel:string) => requests.get(`/cartopics/list?carName=${carName}&carModel=${carModel}`),
+  getCarTopicById: (id: string) => requests.get(`/cartopics/${id}`),
 };
 
 const api = {

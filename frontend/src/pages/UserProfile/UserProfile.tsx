@@ -97,7 +97,7 @@ export default function UserProfile() {
               </button>
               </Link>
             </div>
-            {user && <UserCars userId={user.id} />}
+            {user && <UserCars nickname={user.userNickname} />}
           </div>
           <div>
             <h1 className="text-3xl font-bold mb-6">Your auction history:</h1>

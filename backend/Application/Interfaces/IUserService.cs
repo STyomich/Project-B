@@ -11,5 +11,6 @@ namespace Application.Interfaces
         Task<Result<ApplicationUser>> LoginUserAsync(LoginValues userLogin);
         Task<Result<string>> UpdateAvatarAsync(IFormFile file, string email);
         Task<Result<string>> GetRoleByEmail(string email);
+        Task<Result<Guid>> GetUserIdByNickname(string nickname);
     }
 }

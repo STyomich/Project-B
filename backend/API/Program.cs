@@ -20,6 +20,7 @@ using (var scope = app.Services.CreateAsyncScope())
 {
     var services = scope.ServiceProvider;
     await SeedData.SeedRoles(services);
+    await SeedData.SeedCarTopics(services);
 }
 
 app.Run();

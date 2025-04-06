@@ -11,10 +11,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new CreateNewCar.Command { Car = carDto }));
         }
-        [HttpGet("users-cars/{userId}")]
-        public async Task<IActionResult> GetUsersCars(Guid userId)
+        [HttpGet("users-cars/{nickname}")]
+        public async Task<IActionResult> GetUsersCars(string nickname)
         {
-            return HandleResult(await Mediator.Send(new UsersCarListById.Query { UserId = userId }));
+            return HandleResult(await Mediator.Send(new UsersCarListById.Query { Nickname = nickname }));
         }
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCar(Guid id)
@@ -31,6 +31,11 @@ namespace API.Controllers
         public async Task<IActionResult> GetCarById(Guid id)
         {
             return HandleResult(await Mediator.Send(new GetCarDetailsById.Query { CarId = id }));
+        }
+        [HttpPost("form-values")]
+        public async Task<IActionResult> CreateCarWithFormValues(CreateCarWithFormValuesRequest request)
+        {
+            return HandleResult(await Mediator.Send(new CreateCarWithFormValues.Command { Request = request, User = User }));
         }
     }
 }

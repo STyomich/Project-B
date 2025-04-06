@@ -13,7 +13,7 @@ namespace Application.Services.CarService
     {
         public class Query : IRequest<Result<List<CarListItemDto>>>
         {
-            public Guid UserId { get; set; }
+            public string? Nickname { get; set; }
         }
         public class Handler : IRequestHandler<Query, Result<List<CarListItemDto>>>
         {
@@ -26,9 +26,14 @@ namespace Application.Services.CarService
             }
             public async Task<Result<List<CarListItemDto>>> Handle(Query request, CancellationToken cancellationToken)
             {
+                var userId = await _context.Users
+                    .Where(x => x.UserNickname == request.Nickname)
+                    .Select(x => x.Id)
+                    .FirstOrDefaultAsync();
                 var cars = await _context.Cars
-                    .Where(x => x.UserId == request.UserId)
-                    .ProjectTo<CarListItemDto>(_mapper.ConfigurationProvider)
+                    .Where(x => x.UserId == userId)
+                    .Include(x => x.CarImages)
+                    .Include(x => x.CarTopic)
                     .ToListAsync(cancellationToken);
                 var carsDto = _mapper.Map<List<CarListItemDto>>(cars);
                 return Result<List<CarListItemDto>>.Success(carsDto);
