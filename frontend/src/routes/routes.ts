@@ -5,6 +5,7 @@ import SignUp from "../pages/SignUp/SignUp";
 import SignIn from "../pages/SignIn/SignIn";
 import UserProfile from "../pages/UserProfile/UserProfile";
 import AddNewCar from "../pages/Cars/AddNewCar";
+import UserCarInfo from "../pages/Cars/UserCarInfo";
 
 export const routes:RouteObject[] =[{
     path: "/",
@@ -15,7 +16,8 @@ export const routes:RouteObject[] =[{
         {path: "/sign-up", Component: SignUp},
         {path: "/sign-in", Component: SignIn},
         {path: "/user-profile", Component: UserProfile},
-        {path: "/add-new-car", Component: AddNewCar}
+        {path: "/add-new-car", Component: AddNewCar},
+        {path: "/user-car/:Id", Component: UserCarInfo}
     ]
 }]
 
