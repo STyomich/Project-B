@@ -17,7 +17,7 @@ export const routes:RouteObject[] =[{
         {path: "/sign-in", Component: SignIn},
         {path: "/user-profile", Component: UserProfile},
         {path: "/add-new-car", Component: AddNewCar},
-        {path: "/user-car/:Id", Component: UserCarInfo}
+        {path: "/user-car/:carId", Component: UserCarInfo}
     ]
 }]
 

@@ -54,6 +54,7 @@ namespace Application.Services.CarService
                     Country = request.Request.RegistrationCountry,
                     Text = request.Request.RegistrationText,
                 };
+                _context.RegistrationPlates.Add(registrationPlate);
                 var result = await _context.SaveChangesAsync();
                 if (result > 0)
                 {

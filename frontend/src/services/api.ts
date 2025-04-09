@@ -61,6 +61,7 @@ const Car = {
   getUsersCars: (nickname: string) => requests.get(`/cars/users-cars/${nickname}`),
   createCarWithFormValues: (formData: CarFormData) =>
     requests.post("/cars/form-values", formData),
+  getCarById: (id: string) => requests.get(`/cars/${id}`),
 };
 const CarTopic = {
   getCarTopics: (carName:string, carModel:string) => requests.get(`/cartopics/list?carName=${carName}&carModel=${carModel}`),
