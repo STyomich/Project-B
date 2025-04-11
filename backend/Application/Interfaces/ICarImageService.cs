@@ -7,7 +7,7 @@ namespace Application.Interfaces
 {
     public interface ICarImageService
     {
-        Task<Result<Unit>> CreateAsync(CarImageDto dto);
+        Task<Result<Unit>> CreateAsync(CarImage carImage);
         Task<Result<Unit>> DeleteAsync(Guid id);
         Task<Result<CarImage>> GetMainCarImageByCarIdAsync(Guid carId);
         Task<Result<List<CarImage>>> GetCarImagesByCarIdAsync(Guid carId);

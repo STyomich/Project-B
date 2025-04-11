@@ -18,11 +18,16 @@ namespace Application.Services.CarImageService
             _context = context;
             _mapper = mapper;
         }
-        public async Task<Result<Unit>> CreateAsync(CarImageDto dto)
+        public async Task<Result<Unit>> CreateAsync(CarImage carImage)
         {
-            var image = _mapper.Map<CarImage>(dto);
-            if (_context.CarImages.Any(x => x.CarId == image.CarId && x.isMain)) return Result<Unit>.Failure("Car already has a main image");
-            _context.CarImages.Add(image);
+            var existingMainImage = _context.CarImages
+                .FirstOrDefault(x => x.CarId == carImage.CarId && x.isMain);
+            if (existingMainImage != null && carImage.isMain)
+            {
+                existingMainImage.isMain = false;
+                _context.CarImages.Update(existingMainImage);
+            }
+            _context.CarImages.Add(carImage);
             var success = await _context.SaveChangesAsync() > 0;
             if (!success) return Result<Unit>.Failure("Failed to create car image");
             return Result<Unit>.Success(Unit.Value);
@@ -64,7 +69,7 @@ namespace Application.Services.CarImageService
         {
             return Task.FromResult(_mapper.Map<CarImageDto>(image));
         }
-        public Task<List<CarImageDto>>ToDto(List<CarImage> images)
+        public Task<List<CarImageDto>> ToDto(List<CarImage> images)
         {
             return Task.FromResult(_mapper.Map<List<CarImageDto>>(images));
         }

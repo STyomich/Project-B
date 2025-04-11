@@ -3,6 +3,7 @@ import { Car } from "../../types/car";
 import api from "../../services/api";
 import { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
+import { Link } from "react-router-dom";
 
 export default function UserCarInfo() {
   const [car, setCar] = useState<Car | null>(null);
@@ -69,7 +70,11 @@ export default function UserCarInfo() {
               </>
             )}
           </div>
-          <button className="px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white font-semibold p-2 mt-3 rounded">Upload Image</button>
+          <Link to={`/user-car/${carId}/upload-images`}>
+            <button className="px-4 py-2 bg-white hover:underline text-black font-semibold p-2 mt-3 rounded">
+              Upload Images
+            </button>
+          </Link>
         </div>
 
         {/* Right side: Car Info */}

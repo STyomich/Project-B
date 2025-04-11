@@ -8,9 +8,9 @@ namespace API.Controllers
     public class CarImagesController : BaseApiController
     {
         [HttpPost]
-        public async Task<ActionResult<Unit>> CreateCarImage(CarImageDto carImageDto)
+        public async Task<ActionResult<Unit>> CreateCarImage([FromForm] IFormFile file, [FromQuery] Guid carId, [FromQuery] bool isMain)
         {
-            return HandleResult(await Mediator.Send(new CreateCarImage.Command { carImageDto = carImageDto }));
+            return HandleResult(await Mediator.Send(new CreateCarImage.Command { Image = file, CarId = carId, IsMain = isMain }));
         }
         [HttpDelete("{id}")]
         public async Task<ActionResult<Unit>> DeleteCarImage(Guid id)

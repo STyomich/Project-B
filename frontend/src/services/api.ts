@@ -58,20 +58,31 @@ const User = {
 };
 
 const Car = {
-  getUsersCars: (nickname: string) => requests.get(`/cars/users-cars/${nickname}`),
+  getUsersCars: (nickname: string) =>
+    requests.get(`/cars/users-cars/${nickname}`),
   createCarWithFormValues: (formData: CarFormData) =>
     requests.post("/cars/form-values", formData),
   getCarById: (id: string) => requests.get(`/cars/${id}`),
 };
+const CarImage = {
+  uploadCarImage: (file: FormData, carId: string, isMain: boolean) =>
+    requests.post(`/carimages?carId=${carId}&isMain=${isMain}`, file, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
+};
 const CarTopic = {
-  getCarTopics: (carName:string, carModel:string) => requests.get(`/cartopics/list?carName=${carName}&carModel=${carModel}`),
+  getCarTopics: (carName: string, carModel: string) =>
+    requests.get(`/cartopics/list?carName=${carName}&carModel=${carModel}`),
   getCarTopicById: (id: string) => requests.get(`/cartopics/${id}`),
 };
 
 const api = {
   User,
   Car,
-  CarTopic
+  CarImage,
+  CarTopic,
 };
 
 export default api;
