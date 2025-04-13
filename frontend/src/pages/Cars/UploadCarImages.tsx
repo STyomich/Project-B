@@ -86,7 +86,7 @@ export default function UploadCarImages() {
         htmlFor="fileInput"
         className="px-4 py-2 font-semibold rounded text-white bg-gray-700 hover:bg-gray-800 cursor-pointer"
       >
-        📁 Upload Images
+        Upload Images
       </label>
 
       <div className="flex gap-4 mt-4 flex-wrap">
@@ -115,7 +115,7 @@ export default function UploadCarImages() {
 
       {images.length > 0 && (
         <button
-          className="mt-6 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+          className="px-6 mt-6 py-2 rounded transition bg-green-600 text-white hover:bg-green-700"
           onClick={uploadImages}
         >
           🚀 Submit Images

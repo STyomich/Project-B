@@ -7,6 +7,5 @@ namespace Application.Interfaces
     {
         Task<ImageUploadResult> AddImageAsync(IFormFile file);
         Task<string> DeleteFile(string publicId);
-        Task<RawUploadResult> AddPdfAsync(IFormFile file);
     }
 }

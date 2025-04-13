@@ -11,8 +11,8 @@ using Application.Repositories;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.Authorization;
 using Application.Services.UserService;
-using Application.Services.ImageService;
-using Infrastructure.Images;
+using Application.Services.CloudinaryServices;
+using Infrastructure.Files;
 
 namespace API.Extensions
 {

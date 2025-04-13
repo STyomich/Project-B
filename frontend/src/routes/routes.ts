@@ -7,6 +7,7 @@ import UserProfile from "../pages/UserProfile/UserProfile";
 import AddNewCar from "../pages/Cars/AddNewCar";
 import UserCarInfo from "../pages/Cars/UserCarInfo";
 import UploadCarImages from "../pages/Cars/UploadCarImages";
+import UploadCarDocuments from "../pages/Cars/UploadCarDocuments";
 
 export const routes: RouteObject[] = [
   {
@@ -21,6 +22,7 @@ export const routes: RouteObject[] = [
       { path: "/add-new-car", Component: AddNewCar },
       { path: "/user-car/:carId", Component: UserCarInfo },
       { path: "/user-car/:carId/upload-images", Component: UploadCarImages },
+      { path: "/user-car/:carId/upload-car-documents", Component: UploadCarDocuments },
     ],
   },
 ];

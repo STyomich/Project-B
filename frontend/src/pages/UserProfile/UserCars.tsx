@@ -22,7 +22,7 @@ export default function UserCars({ nickname }: UserCarsProps) {
         {carList && carList.length > 0 ? (
           <div className="flex flex-wrap gap-4">
             {carList.map((car: CarListItemDto) => (
-              <Link to={`/user-car/${car.id}`}>
+              <Link key={car.id} to={`/user-car/${car.id}`}>
                 <div
                   key={car.id}
                   className="flex flex-col items-center bg-gray-100 p-4 rounded-lg w-60 transform transition-transform duration-500 hover:scale-105"

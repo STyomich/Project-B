@@ -1,12 +1,11 @@
-
 using Application.Interfaces;
 using CloudinaryDotNet;
 using CloudinaryDotNet.Actions;
-using Infrastructure.Images;
+using Infrastructure.Files;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
 
-namespace Application.Services.ImageService
+namespace Application.Services.CloudinaryServices
 {
     public class ImageService : IImageService
     {
@@ -47,28 +46,6 @@ namespace Application.Services.ImageService
             var deleteParams = new DeletionParams(publicId);
             var result = await _cloudinary.DestroyAsync(deleteParams);
             return result.Result == "ok" ? result.Result : throw new Exception("Failed to delete");
-        }
-        public async Task<RawUploadResult> AddPdfAsync(IFormFile file)
-        {
-            if (file.Length > 0)
-            {
-                await using var stream = file.OpenReadStream();
-                var uploadParams = new RawUploadParams
-                {
-                    File = new FileDescription(file.FileName, stream),
-                };
-                var uploadResult = await _cloudinary.UploadAsync(uploadParams);
-                if (uploadResult.Error != null)
-                {
-                    throw new Exception(uploadResult.Error.Message);
-                }
-                return new RawUploadResult
-                {
-                    PublicId = uploadResult.PublicId,
-                    Url = uploadResult.SecureUrl
-                };
-            }
-            throw new ArgumentException("File is empty");
         }
     }
 }

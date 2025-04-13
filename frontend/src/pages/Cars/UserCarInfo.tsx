@@ -47,7 +47,7 @@ export default function UserCarInfo() {
       <div className="flex gap-8 items-start bg-white shadow-lg rounded-lg p-6">
         {/* Left side: Image and navigation */}
         <div className="flex flex-col items-start">
-          <div className="relative w-80 h-80 overflow-hidden rounded-md shadow-lg">
+          <div className="relative w-110 h-60 overflow-hidden rounded-md shadow-lg">
             <img
               src={imageToDisplay}
               alt="Car"
@@ -70,11 +70,18 @@ export default function UserCarInfo() {
               </>
             )}
           </div>
-          <Link to={`/user-car/${carId}/upload-images`}>
-            <button className="px-4 py-2 bg-white hover:underline text-black font-semibold p-2 mt-3 rounded">
-              Upload Images
-            </button>
-          </Link>
+          <div className="flex flex-row gap-2 mt-4">
+            <Link to={`/user-car/${carId}/upload-images`}>
+              <button className="px-4 py-2 bg-white hover:underline text-black font-semibold p-2 mt-3 rounded">
+                Upload Images
+              </button>
+            </Link>
+            <Link to={`/user-car/${carId}/upload-car-documents`}>
+              <button className="px-4 py-2 bg-white hover:underline text-black font-semibold p-2 mt-3 rounded">
+                Upload car documents
+              </button>
+            </Link>
+          </div>
         </div>
 
         {/* Right side: Car Info */}

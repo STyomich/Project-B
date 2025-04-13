@@ -37,6 +37,10 @@ namespace Application.Helpers
             // CarImage
             CreateMap<CarImage, CarImageDto>();
             CreateMap<CarImageDto, CarImage>();
+
+            // CarDocuments
+            CreateMap<CarDocuments, CarDocumentsDto>();
+            CreateMap<CarDocumentsDto, CarDocuments>();
         }
     }
 }
