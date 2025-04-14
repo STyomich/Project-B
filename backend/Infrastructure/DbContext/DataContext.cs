@@ -19,6 +19,8 @@ namespace Infrastructure.DbContext
         public DbSet<Organization> Organizations { get; set; }
         public DbSet<OrganizationPin> OrganizationPins { get; set; }
         public DbSet<RegistrationPlate> RegistrationPlates { get; set; }
+        public DbSet<AuctionInfo> AuctionInfos { get; set; }
+        public DbSet<AuctionBid> AuctionBids { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -53,6 +55,28 @@ namespace Infrastructure.DbContext
                 .HasOne(rp => rp.Car)
                 .WithOne(c => c.RegistrationPlate)
                 .HasForeignKey<RegistrationPlate>(rp => rp.CarId);
+
+            builder.Entity<AuctionInfo>()
+                .HasMany(ai => ai.AuctionBids)
+                .WithOne(ab => ab.AuctionInfo)
+                .HasForeignKey(ab => ab.AuctionInfoId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<AuctionBid>()
+                .HasOne(ab => ab.User)
+                .WithMany()
+                .HasForeignKey(ab => ab.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+            builder.Entity<AuctionInfo>()
+                .Property(ai => ai.StartPrice)
+                .HasPrecision(18, 2);
+            builder.Entity<AuctionInfo>()
+                .Property(ai => ai.BuyoutPrice)
+                .HasPrecision(18, 2);
+            builder.Entity<AuctionBid>(x =>
+            {
+                x.HasKey(ab => new { ab.AuctionInfoId, ab.UserId });
+                x.Property(ab => ab.BidAmount).HasPrecision(18, 4);
+            });
         }
     }
 }
