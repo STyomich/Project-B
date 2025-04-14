@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Application.Services.UserService;
 using Application.Services.CloudinaryServices;
 using Infrastructure.Files;
+using Application.Services.CarDocumentsService;
 
 namespace API.Extensions
 {
@@ -52,9 +53,11 @@ namespace API.Extensions
             services.AddTransient<IRegistrationPlateService, RegistrationPlateService>();
             services.AddHttpContextAccessor();
             services.AddTransient<ICarImageService, CarImageService>();
+            services.AddScoped<ICarDocumentsService, CarDocumentsService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IImageService, ImageService>();
+            services.AddScoped<IPdfService, PdfService>();
             services.Configure<CloudinarySettings>(builder.Configuration.GetSection("Cloudinary"));
             services.AddScoped<UserRepository>();
 

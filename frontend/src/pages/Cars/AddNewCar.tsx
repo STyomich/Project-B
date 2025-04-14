@@ -65,7 +65,9 @@ export default function AddNewCar() {
           data={formData}
           updateData={updateData}
           back={back}
-          submit={submit}
+          submit={() => {
+            submit();
+          }}
         />
       )}
     </div>

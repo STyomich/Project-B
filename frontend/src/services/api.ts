@@ -77,12 +77,23 @@ const CarTopic = {
     requests.get(`/cartopics/list?carName=${carName}&carModel=${carModel}`),
   getCarTopicById: (id: string) => requests.get(`/cartopics/${id}`),
 };
+const CarDocuments = {
+  uploadCarDocuments: (formData: FormData, carId: string) =>
+    requests.post(`/cardocuments?carId=${carId}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    }),
+  getCarDocumentsByCarId: (carId: string) =>
+    requests.get(`/cardocuments/${carId}`),
+};
 
 const api = {
   User,
   Car,
   CarImage,
   CarTopic,
+  CarDocuments,
 };
 
 export default api;
