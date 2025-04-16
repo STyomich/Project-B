@@ -18,7 +18,7 @@ export default function UserCars({ nickname }: UserCarsProps) {
 
   return (
     <div className="flex flex-col items-center rounded-2xl bg-gray-150 p-4 fade-in">
-      <div className="bg-white p-6 shadow-lg rounded-lg mt-6 w-full">
+      <div className="bg-white p-6 shadow-lg rounded-lg mt-6 max-w-11/12">
         {carList && carList.length > 0 ? (
           <div className="flex flex-wrap gap-4">
             {carList.map((car: CarListItemDto) => (

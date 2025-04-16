@@ -1,17 +1,23 @@
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
 import { getUser, logout } from "../stores/features/user/userSlice";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function ProfileButtonsGroup() {
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (!user) {
       dispatch(getUser());
     }
   }, [dispatch, user]);
+
+  function handleLogoutButton(){
+    dispatch(logout());
+    navigate("/", { replace: true });
+  }
 
   return (
     <div className="flex space-x-4">
@@ -34,7 +40,7 @@ export default function ProfileButtonsGroup() {
             </button>
           </Link>
           <button
-            onClick={() => dispatch(logout())}
+            onClick={() => handleLogoutButton()}
             className="text-white font-semibold hover:text-gray-400 p-2 rounded"
           >
             Logout
