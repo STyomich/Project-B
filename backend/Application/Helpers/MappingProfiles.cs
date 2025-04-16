@@ -41,6 +41,16 @@ namespace Application.Helpers
             // CarDocuments
             CreateMap<CarDocuments, CarDocumentsDto>();
             CreateMap<CarDocumentsDto, CarDocuments>();
+
+            // Auctions
+            CreateMap<AuctionInfo, AuctionInfoDto>();
+            CreateMap<AuctionInfoDto, AuctionInfo>();
+            CreateMap<AuctionInfo, AuctionInfoListItemDto>();
+            CreateMap<AuctionInfoListItemDto, AuctionInfo>();
+
+            // Auction Bids
+            CreateMap<AuctionBid, AuctionBidDto>();
+            CreateMap<AuctionBidDto, AuctionBid>();
         }
     }
 }
