@@ -14,9 +14,11 @@ export default function Header() {
                 Home
               </button>
             </Link>
-            <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Auctions
-            </button>
+            <Link to="/auctions">
+              <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+                Auctions
+              </button>
+            </Link>
             <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
               Shop
             </button>

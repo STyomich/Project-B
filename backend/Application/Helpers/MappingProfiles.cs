@@ -44,8 +44,16 @@ namespace Application.Helpers
 
             // Auctions
             CreateMap<AuctionInfo, AuctionInfoDto>();
+            CreateMap<AuctionInfoDto, AuctionInfoCreateRequest>();
+            CreateMap<AuctionInfoCreateRequest, AuctionInfo>();
             CreateMap<AuctionInfoDto, AuctionInfo>();
-            CreateMap<AuctionInfo, AuctionInfoListItemDto>();
+            CreateMap<AuctionInfo, AuctionInfoListItemDto>()
+            .ForMember(dest => dest.Car, opt => opt.MapFrom(src => src.Car))
+            .ForMember(dest => dest.MaxBid, opt => opt.MapFrom(src =>
+                src.AuctionBids != null && src.AuctionBids.Any()
+                    ? src.AuctionBids.OrderByDescending(b => b.BidAmount).FirstOrDefault()
+                    : null
+            ));
             CreateMap<AuctionInfoListItemDto, AuctionInfo>();
 
             // Auction Bids

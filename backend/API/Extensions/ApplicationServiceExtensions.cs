@@ -14,6 +14,8 @@ using Application.Services.UserService;
 using Application.Services.CloudinaryServices;
 using Infrastructure.Files;
 using Application.Services.CarDocumentsService;
+using Application.Services.AuctionInfoService;
+using Application.Services.AuctionBidService;
 
 namespace API.Extensions
 {
@@ -54,6 +56,8 @@ namespace API.Extensions
             services.AddHttpContextAccessor();
             services.AddTransient<ICarImageService, CarImageService>();
             services.AddScoped<ICarDocumentsService, CarDocumentsService>();
+            services.AddScoped<IAuctionBidService, AuctionBidService>();
+            services.AddScoped<IAuctionInfoService, AuctionInfoService>();
             services.AddScoped<ITokenService, TokenService>();
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IImageService, ImageService>();

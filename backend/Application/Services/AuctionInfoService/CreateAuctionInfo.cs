@@ -12,7 +12,7 @@ namespace Application.Services.AuctionInfoService
     {
         public class Command : IRequest<Result<Unit>>
         {
-            public AuctionInfoDto? AuctionInfo { get; set; }
+            public AuctionInfoCreateRequest? AuctionInfo { get; set; }
         }
 
         public class Handler : IRequestHandler<Command, Result<Unit>>

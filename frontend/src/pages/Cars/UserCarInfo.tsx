@@ -82,6 +82,13 @@ export default function UserCarInfo() {
               </button>
             </Link>
           </div>
+          <div>
+            <Link to={`/user-car/${carId}/start-auction-form`}>
+            <button className="px-4 py-2 bg-green-700 hover:underline text-white font-semibold p-2 mt-3 rounded">
+              Start auction
+            </button>
+            </Link>
+          </div>
         </div>
 
         {/* Right side: Car Info */}

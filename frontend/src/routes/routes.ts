@@ -8,6 +8,8 @@ import AddNewCar from "../pages/Cars/AddNewCar";
 import UserCarInfo from "../pages/Cars/UserCarInfo";
 import UploadCarImages from "../pages/Cars/UploadCarImages";
 import UploadCarDocuments from "../pages/Cars/UploadCarDocuments";
+import StartAuctionForm from "../pages/Auctions/StartAuctionForm";
+import Auctions from "../pages/Auctions/Auctions";
 
 export const routes: RouteObject[] = [
   {
@@ -23,6 +25,8 @@ export const routes: RouteObject[] = [
       { path: "/user-car/:carId", Component: UserCarInfo },
       { path: "/user-car/:carId/upload-images", Component: UploadCarImages },
       { path: "/user-car/:carId/upload-car-documents", Component: UploadCarDocuments },
+      { path: "/user-car/:carId/start-auction-form", Component: StartAuctionForm },
+      { path: "/auctions", Component: Auctions },
     ],
   },
 ];

@@ -1,4 +1,5 @@
 using Application.Helpers;
+using Application.Interfaces;
 using AutoMapper;
 using Core.Domain.Entities;
 using Core.DTOs.Entities;
@@ -8,7 +9,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Application.Services.AuctionInfoService
 {
-    public class AuctionInfoService
+    public class AuctionInfoService : IAuctionInfoService
     {
         private readonly DataContext _context;
         private readonly IMapper _mapper;
