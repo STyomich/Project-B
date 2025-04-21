@@ -17,12 +17,27 @@ namespace Application.Services.AuctionBidService
             var auction = await _context.AuctionInfos.FindAsync(auctionBid.AuctionInfoId);
             if (auction == null) return false;
 
-            if (auctionBid.BidAmount <= auction.StartPrice || auctionBid.BidAmount >= auction.BuyoutPrice) return false;
+            if (auctionBid.BidAmount < auction.StartPrice || auctionBid.BidAmount >= auction.BuyoutPrice) return false;
 
-            _context.AuctionBids.Add(auctionBid);
-            await _context.SaveChangesAsync();
-
-            return true;
+            var currentMaxBid = _context.AuctionBids
+                .Where(b => b.AuctionInfoId == auctionBid.AuctionInfoId)
+                .OrderByDescending(b => b.BidAmount)
+                .FirstOrDefault();
+            if (currentMaxBid == null || auctionBid.BidAmount > currentMaxBid.BidAmount)
+            {
+                var existedAuctionBid = await _context.AuctionBids
+                    .FirstOrDefaultAsync(b => b.UserId == auctionBid.UserId && b.AuctionInfoId == auctionBid.AuctionInfoId);
+                if (existedAuctionBid == null)
+                    _context.AuctionBids.Add(auctionBid);
+                else
+                {
+                    existedAuctionBid.BidAmount = auctionBid.BidAmount;
+                    existedAuctionBid.BidDate = DateTime.UtcNow;
+                }
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            return false;
         }
         public async Task<List<AuctionBid>> GetBidsByAuctionId(Guid auctionId)
         {

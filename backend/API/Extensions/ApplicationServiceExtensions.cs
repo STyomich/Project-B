@@ -23,6 +23,12 @@ namespace API.Extensions
     {
         public static IServiceCollection AddApplicationServices(this IServiceCollection services, WebApplicationBuilder builder)
         {
+            services.AddHttpsRedirection(options =>
+            {
+                options.RedirectStatusCode = StatusCodes.Status307TemporaryRedirect;
+                options.HttpsPort = 5000;
+            });
+
             services.AddCors(options =>
             {
                 options.AddPolicy("Frontend",
@@ -37,6 +43,7 @@ namespace API.Extensions
 
             var connectionString = builder.Configuration.GetConnectionString(builder.Environment.IsDevelopment() ? "DevelopmentConnection" : "ProductionConnection");
 
+            services.AddSignalR();
             services.AddDbContext<DataContext>(options =>
             {
                 options.UseSqlServer(connectionString);

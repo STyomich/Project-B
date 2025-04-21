@@ -40,6 +40,7 @@ namespace Application.Services.UserService
 
                 var userDto = new UserDto
                 {
+                    Id = user.Id.ToString(),
                     Avatar = user.AvatarUrl,
                     UserNickname = user.UserNickname,
                     UserName = user.UserName,

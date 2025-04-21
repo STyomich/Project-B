@@ -2,6 +2,7 @@ namespace Core.DTOs.Identity
 {
     public class UserDto
     {
+        public string? Id { get; set; }
         public string? Avatar { get; set; }
         public string? UserNickname { get; set; }
         public string? UserName { get; set; }

@@ -36,7 +36,7 @@ services:
       - api
     environment:
       - NODE_ENV=production
-      - REACT_APP_API_URL=http://api:8080
+      - REACT_APP_API_URL=https://api:8080
 networks:
   app-network:
 volumes:
