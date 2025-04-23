@@ -18,7 +18,15 @@ export interface AuctionInfoDto{
     buyoutPrice: number;
     startDate: Date;
     endDate: Date;
+    maxBid: AuctionBidDto | null;
     car: Car | null;
+}
+export interface AuctionInfoCreateRequest{
+    carId: string;
+    startPrice: number;
+    buyoutPrice: number;
+    startDate: Date;
+    endDate: Date;
 }
 
 export interface AuctionInfoListItemDto{

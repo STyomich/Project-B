@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import * as Yup from "yup";
-import { AuctionInfoDto } from "../../types/auctionInfo";
+import { AuctionInfoCreateRequest } from "../../types/auctionInfo";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
 
@@ -31,14 +31,12 @@ export default function StartAuctionForm() {
     }),
     onSubmit: async (values, { resetForm }) => {
       try {
-        const auctionInfo: AuctionInfoDto = {
-          id: "",
+        const auctionInfo: AuctionInfoCreateRequest = {
           carId: carId,
           startPrice: parseFloat(values.startPrice),
           buyoutPrice: parseFloat(values.buyoutPrice),
           startDate: new Date(values.startDate),
           endDate: new Date(values.endDate),
-          car: null,
         };
         await api.AuctionInfo.createAuctionInfo(auctionInfo);
         alert("Auction info submited successfully!");

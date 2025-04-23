@@ -9,5 +9,6 @@ namespace Core.DTOs.Entities
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
         public CarDetailsDto? Car { get; set; }
+        public AuctionBidDto? MaxBid { get; set; }
     }
 }

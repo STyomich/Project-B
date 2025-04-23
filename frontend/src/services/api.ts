@@ -1,7 +1,7 @@
 import axios, { AxiosResponse } from "axios";
 import store from "../stores";
 import { CarFormData } from "../types/car";
-import { AuctionInfoDto } from "../types/auctionInfo";
+import { AuctionInfoCreateRequest } from "../types/auctionInfo";
 
 axios.defaults.baseURL = import.meta.env.VITE_API_URL as string;
 
@@ -89,8 +89,9 @@ const CarDocuments = {
     requests.get(`/cardocuments/${carId}`),
 };
 const AuctionInfo ={
-  createAuctionInfo: (auctionInfoDto: AuctionInfoDto) => requests.post("/auctioninfos", auctionInfoDto),
+  createAuctionInfo: (auctionInfoDto: AuctionInfoCreateRequest) => requests.post("/auctioninfos", auctionInfoDto),
   getAuctionInfoList: () => requests.get("/auctioninfos"),
+  getAuctionInfoById: (id: string) => requests.get(`/auctioninfos/whole-info/${id}`),
 }
 
 const api = {

@@ -3,15 +3,40 @@ import { AuctionBidDto } from "../../types/auctionBid";
 import { useParams } from "react-router-dom";
 import { useAppSelector } from "../../stores/hooks";
 import * as signalR from "@microsoft/signalr";
+import api from "../../services/api";
+import { AxiosResponse } from "axios";
+import { AuctionInfoDto } from "../../types/auctionInfo";
 
 export default function AuctionInfo() {
   const { user } = useAppSelector((state) => state.user);
   const [currentBid, setCurrentBid] = useState<AuctionBidDto | null>(null);
   const [bidAmount, setBidAmount] = useState<number>(0);
   const [isConnected, setIsConnected] = useState(false);
+  const [auctionInfo, setAuctionInfo] = useState<AuctionInfoDto>(); // Replace with your actual auction info type
   const connectionRef = useRef<signalR.HubConnection | null>(null);
   const auctionInfoId = useParams().auctionInfoId as string;
+  const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const userId = user?.id as string;
+
+  useEffect(() => {
+    const fetchAuctionInfo = async () => {
+      try {
+        const response = (await api.AuctionInfo.getAuctionInfoById(
+          auctionInfoId
+        )) as AxiosResponse;
+        if (response.status === 200) {
+          setAuctionInfo(response.data);
+          setCurrentBid(response.data.maxBid);
+        } else {
+          console.error("Failed to fetch auction info:", response.statusText);
+        }
+      } catch (error) {
+        console.error("Error fetching auction info:", error);
+      }
+    };
+
+    fetchAuctionInfo();
+  }, [auctionInfoId]);
 
   useEffect(() => {
     let isMounted = true;
@@ -76,7 +101,33 @@ export default function AuctionInfo() {
 
       void cleanUp();
     };
-}, [auctionInfoId]);
+  }, [auctionInfoId]);
+
+  const handlePrev = () => {
+    if (
+      !auctionInfo?.car?.carImages ||
+      auctionInfo?.car?.carImages.length === 0
+    )
+      return;
+    setCurrentImageIndex((prev) =>
+      prev === 0 ? auctionInfo?.car!.carImages.length - 1 : prev - 1
+    );
+  };
+
+  const handleNext = () => {
+    if (
+      !auctionInfo?.car?.carImages ||
+      auctionInfo?.car?.carImages.length === 0
+    )
+      return;
+    setCurrentImageIndex((prev) =>
+      prev === auctionInfo?.car!.carImages.length - 1 ? 0 : prev + 1
+    );
+  };
+  const imageToDisplay =
+    auctionInfo?.car?.carImages && auctionInfo?.car?.carImages.length > 0
+      ? auctionInfo?.car?.carImages[currentImageIndex].imageUrl
+      : "/assets/images/no-image-icon.png";
 
   // Submit bid when the connection is established
   const submitBid = async () => {
@@ -102,24 +153,121 @@ export default function AuctionInfo() {
   };
 
   return (
-    <div>
-      <h2>Live Auction</h2>
-      <input
-        type="number"
-        value={bidAmount}
-        onChange={(e) => setBidAmount(parseFloat(e.target.value))}
-        placeholder="Enter bid amount"
-      />
-      <button onClick={submitBid}>Submit Bid</button>
+    <div className="flex items-start justify-center min-h-screen bg-gray-100 py-10">
+      <div className="p-6 w-200 rounded-lg shadow-md bg-white space-y-6">
+        <h2 className="text-2xl font-bold text-gray-800 text-center">
+          🚗 Live Auction
+        </h2>
+        <div className="flex gap-8 items-start bg-white shadow-lg rounded-lg p-6">
+          <div>
+            {auctionInfo && (
+              <div className="w-full max-w-screen-md mx-auto">
+                <div className="relative h-60 w-96 overflow-hidden rounded-md shadow-lg">
+                  <img
+                    src={imageToDisplay}
+                    alt="Car"
+                    className="absolute top-0 left-0 w-full h-full object-cover rounded-md mb-2"
+                  />
+                  {auctionInfo?.car!.carImages.length > 1 && (
+                    <>
+                      <button
+                        onClick={handlePrev}
+                        className="absolute left-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 px-3 py-1 rounded shadow"
+                      >
+                        {"<"}
+                      </button>
+                      <button
+                        onClick={handleNext}
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 bg-white bg-opacity-80 hover:bg-opacity-100 px-3 py-1 rounded shadow"
+                      >
+                        {">"}
+                      </button>
+                    </>
+                  )}
+                </div>
 
-      <h3>Bid History</h3>
-      <ul>
-        {currentBid ? (
-          <div>💰 Current highest bid: ${currentBid.bidAmount}</div>
-        ) : (
-          <div>-</div>
-        )}
-      </ul>
+                <div className="bg-gray-100 p-4 rounded mt-4 space-y-2 text-lg">
+                  <p>
+                    <strong>Start Price:</strong> ${auctionInfo.startPrice}
+                  </p>
+                  <p>
+                    <strong>Buyout Price:</strong> ${auctionInfo.buyoutPrice}
+                  </p>
+                  <p>
+                    <strong>Auction Ends:</strong>{" "}
+                    {new Date(auctionInfo.endDate).toLocaleString()}
+                  </p>
+                  {auctionInfo.car && (
+                    <p>
+                      <strong>Car:</strong> {auctionInfo.car.carTopic.carName}{" "}
+                      {auctionInfo.car.carTopic.carModel}
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
+          </div>
+          <div>
+            <h2 className="text-2xl font-semibold mb-2">
+              {auctionInfo?.car?.carTopic.carName}{" "}
+              {auctionInfo?.car?.carTopic.carModel} (
+              {auctionInfo?.car?.carTopic.carYear})
+            </h2>
+            {auctionInfo?.car?.registrationPlate?.text ? (
+              <p className="mb-2">
+                <span className="font-semibold">Plate Number:</span>{" "}
+                {auctionInfo?.car?.registrationPlate.text}
+              </p>
+            ) : (
+              <p>
+                <a className="text-red-700">
+                  Registration plate information not provided.
+                </a>
+              </p>
+            )}
+
+            {auctionInfo?.car?.carDocument ? (
+              <p>
+                <a href={auctionInfo?.car?.carDocument.url}>Car documents</a>
+              </p>
+            ) : (
+              <p>
+                <a className="text-red-700">Car documents not uploaded.</a>
+              </p>
+            )}
+            <p>
+              <span className="font-semibold">Description:</span>{" "}
+              {auctionInfo?.car?.ownersDescription}
+            </p>
+          </div>
+        </div>
+        <div className="space-y-2">
+          <input
+            type="number"
+            value={bidAmount}
+            onChange={(e) => setBidAmount(parseFloat(e.target.value))}
+            placeholder="Enter your bid"
+            className="border border-gray-300 p-2 rounded w-full"
+          />
+          <button
+            onClick={submitBid}
+            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+          >
+            Submit Bid
+          </button>
+        </div>
+
+        <div className="mt-4">
+          <h3 className="text-xl font-semibold text-center">📜 Bid History</h3>
+          <div className="text-green-600 font-medium mt-2 text-center">
+            💰 Current highest bid: $
+            {currentBid?.bidAmount ?? auctionInfo?.maxBid?.bidAmount ?? 0}
+            {currentBid?.userId === userId && (
+              <span className="text-blue-600"> (You)</span>
+            )}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

@@ -28,5 +28,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new DeleteAuctionInfo.Command { Id = id }));
         }
+        [HttpGet("whole-info/{id}")]
+        public async Task<IActionResult> GetAuctionInfoById(Guid id)
+        {
+            return HandleResult(await Mediator.Send(new GetAuctionInfoById.Query { Id = id }));
+        }
     }
 }
