@@ -35,16 +35,22 @@ export default function Auctions() {
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 p-6 ">
       <h1 className="text-3xl font-bold mb-6">Active Auctions</h1>
-      <div className="flex flex-col items-center gap-6 transform transition-transform duration-500 hover:scale-105">
+      <div className="flex flex-row items-center gap-6 ">
         {auctions.map((auction) => (
           <Link to={`/auctions/${auction.id}`} key={auction.id}>
             <div
               key={auction.id}
-              className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 w-[300px]"
+              className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 w-[300px] transform transition-transform duration-500 hover:scale-105"
             >
-              {auction.car?.carMainImage?.imageUrl && (
+              {auction.car?.carMainImage?.imageUrl ? (
                 <img
                   src={auction.car.carMainImage.imageUrl}
+                  alt="Car"
+                  className="w-full h-48 object-cover"
+                />
+              ) : (
+                <img
+                  src={"/assets/images/no-image-icon.png"}
                   alt="Car"
                   className="w-full h-48 object-cover"
                 />

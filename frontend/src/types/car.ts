@@ -1,4 +1,4 @@
-import { CarDocument } from "./carDocument";
+import { CarDocuments } from "./carDocuments";
 import { CarImage } from "./carImage";
 import { CarTopic } from "./carTopic";
 import { RegistrationPlate } from "./registrationPlate";
@@ -8,7 +8,7 @@ export interface Car {
   userId: string;
   carTopicId: string;
   ownersDescription: string;
-  carDocument: CarDocument;
+  carDocuments: CarDocuments;
   registrationPlate: RegistrationPlate;
   carImages: CarImage[];
   carTopic: CarTopic;
@@ -19,7 +19,7 @@ export interface CarListItemDto {
   userId: string;
   carTopicId: string;
   ownersDescription: string;
-  carDocument: CarDocument;
+  carDocuments: CarDocuments;
   registrationPlate: RegistrationPlate;
   carMainImage: CarImage;
   carTopic: CarTopic;

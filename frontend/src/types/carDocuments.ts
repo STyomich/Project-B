@@ -1,4 +1,4 @@
-export interface CarDocument {
+export interface CarDocuments {
     id: string;
     carId: string;
     url: string;

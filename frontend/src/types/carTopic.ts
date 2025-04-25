@@ -3,6 +3,6 @@ export interface CarTopic {
     carName: string;
     carModel: string;
     carYear: number;
-    carDescription: string;
+    description: string;
     imageLogoUrl: string;
   }

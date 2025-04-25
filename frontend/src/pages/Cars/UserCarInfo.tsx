@@ -110,9 +110,9 @@ export default function UserCarInfo() {
             </p>
           )}
 
-          {car.carDocument ? (
+          {car.carDocuments ? (
             <p>
-              <a href={car.carDocument.url}>Car documents</a>
+              <a className="hover:underline text-blue-700" href={car.carDocuments.url}>Car documents</a>
             </p>
           ) : (
             <p>

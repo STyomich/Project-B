@@ -217,6 +217,8 @@ export default function AuctionInfo() {
               <p className="mb-2">
                 <span className="font-semibold">Plate Number:</span>{" "}
                 {auctionInfo?.car?.registrationPlate.text}
+                <span className="font-semibold ml-2">Country:</span>{" "}
+                {auctionInfo?.car?.registrationPlate.country}
               </p>
             ) : (
               <p>
@@ -226,9 +228,14 @@ export default function AuctionInfo() {
               </p>
             )}
 
-            {auctionInfo?.car?.carDocument ? (
+            {auctionInfo?.car?.carDocuments ? (
               <p>
-                <a href={auctionInfo?.car?.carDocument.url}>Car documents</a>
+                <a
+                  className="hover:underline text-blue-700"
+                  href={auctionInfo?.car?.carDocuments.url}
+                >
+                  Car documents
+                </a>
               </p>
             ) : (
               <p>
@@ -236,8 +243,12 @@ export default function AuctionInfo() {
               </p>
             )}
             <p>
-              <span className="font-semibold">Description:</span>{" "}
+              <span className="font-semibold">Owners description:</span>{" "}
               {auctionInfo?.car?.ownersDescription}
+            </p>
+            <p>
+              <span className="font-semibold">Car topic:</span>{" "}
+              {auctionInfo?.car?.carTopic.description}
             </p>
           </div>
         </div>
