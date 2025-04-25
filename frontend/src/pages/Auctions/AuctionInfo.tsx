@@ -12,7 +12,7 @@ export default function AuctionInfo() {
   const [currentBid, setCurrentBid] = useState<AuctionBidDto | null>(null);
   const [bidAmount, setBidAmount] = useState<number>(0);
   const [isConnected, setIsConnected] = useState(false);
-  const [auctionInfo, setAuctionInfo] = useState<AuctionInfoDto>(); // Replace with your actual auction info type
+  const [auctionInfo, setAuctionInfo] = useState<AuctionInfoDto>();
   const connectionRef = useRef<signalR.HubConnection | null>(null);
   const auctionInfoId = useParams().auctionInfoId as string;
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
@@ -147,6 +147,9 @@ export default function AuctionInfo() {
 
     try {
       await connection.invoke("SubmitBid", bid);
+      if (bidAmount == auctionInfo?.buyoutPrice) {
+        alert("Congratulations! You bought the car!");
+      }
     } catch (err) {
       console.error("Error submitting bid: ", err);
     }
@@ -154,7 +157,7 @@ export default function AuctionInfo() {
 
   return (
     <div className="flex items-start justify-center min-h-screen bg-gray-100 py-10">
-      <div className="p-6 w-200 rounded-lg shadow-md bg-white space-y-6">
+      <div className="p-6 w-250 rounded-lg shadow-md bg-white space-y-6">
         <h2 className="text-2xl font-bold text-gray-800 text-center">
           🚗 Live Auction
         </h2>
@@ -251,6 +254,24 @@ export default function AuctionInfo() {
               {auctionInfo?.car?.carTopic.description}
             </p>
           </div>
+          <div>
+            <p className="mb-2">
+              <span className="font-semibold">Owner:</span>{" "}
+            </p>
+            <img
+              src={
+                auctionInfo?.owner.avatarUrl ??
+                "/assets/images/stock_avatar.jpg"
+              }
+              alt="User Avatar"
+              className="w-16 h-16 rounded-full border-4 border-gray-500 transition-all duration-300 group-hover:brightness-50 cursor-pointer"
+            />
+            <h2 className="text-xl font-semibold mt-4">
+              {user?.userName} {user?.userSurname}
+            </h2>
+            <p className="text-gray-600">@{user?.userNickname}</p>
+            <p className="mt-2 text-gray-700">{user?.email}</p>
+          </div>
         </div>
         <div className="space-y-2">
           <input
@@ -265,6 +286,15 @@ export default function AuctionInfo() {
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
           >
             Submit Bid
+          </button>
+          <button
+            onClick={() => {
+              setBidAmount(auctionInfo?.buyoutPrice ?? 0);
+              submitBid();
+            }}
+            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 w-full"
+          >
+            Buy out
           </button>
         </div>
 

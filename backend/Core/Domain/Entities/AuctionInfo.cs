@@ -8,6 +8,7 @@ namespace Core.Domain.Entities
         public decimal BuyoutPrice { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsActive { get; set; } = true;
         public Car? Car { get; set; }
         public ICollection<AuctionBid>? AuctionBids { get; set; }
     }

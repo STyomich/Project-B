@@ -15,6 +15,7 @@ namespace Application.Helpers
             CreateMap<ApplicationUser, UserDto>();
             CreateMap<UserDto, ApplicationUser>();
             CreateMap<ApplicationUser, UserListItemDto>();
+            CreateMap<ApplicationUser, UserShortInfo>();
 
             // Car
             CreateMap<Car, CarDto>();
@@ -43,7 +44,11 @@ namespace Application.Helpers
             CreateMap<CarDocumentsDto, CarDocuments>();
 
             // Auctions
-            CreateMap<AuctionInfo, AuctionInfoDto>();
+            CreateMap<AuctionInfo, AuctionInfoDto>()
+           .ForMember(dest => dest.Owner, opt =>
+               opt.MapFrom(src => src.Car != null && src.Car.User != null ? src.Car.User : null))
+           .ForMember(dest => dest.Car, opt =>
+               opt.MapFrom(src => src.Car));
             CreateMap<AuctionInfoDto, AuctionInfoCreateRequest>();
             CreateMap<AuctionInfoCreateRequest, AuctionInfo>();
             CreateMap<AuctionInfoDto, AuctionInfo>();

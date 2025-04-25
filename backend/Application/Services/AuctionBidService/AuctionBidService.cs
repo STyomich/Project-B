@@ -34,6 +34,11 @@ namespace Application.Services.AuctionBidService
                     existedAuctionBid.BidAmount = auctionBid.BidAmount;
                     existedAuctionBid.BidDate = DateTime.UtcNow;
                 }
+                if (auctionBid.BidAmount == auction.BuyoutPrice)
+                {
+                    auction.IsActive = false;
+                    auction.EndDate = DateTime.UtcNow;
+                }
                 await _context.SaveChangesAsync();
                 return true;
             }

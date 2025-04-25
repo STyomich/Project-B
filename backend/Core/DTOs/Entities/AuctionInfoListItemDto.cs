@@ -8,6 +8,7 @@ namespace Core.DTOs.Entities
         public decimal BuyoutPrice { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
+        public bool IsActive { get; set; }
         public CarListItemDto? Car { get; set; }
         public AuctionBidDto? MaxBid { get; set; }
     }

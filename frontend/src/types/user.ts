@@ -1,3 +1,4 @@
+import { OrganizationShortInfo } from "./organization";
 import { Role } from "./role";
 
 export interface User{
@@ -23,5 +24,14 @@ export interface UserRegisterValues{
     userName: string;
     userSurname: string;
     password: string;
+}
+
+export interface UserShortInfo{
+    userName: string;
+    userSurname: string;
+    userNickname: string;
+    email: string;
+    avatarUrl: string;
+    organization: OrganizationShortInfo | null;
 }
 
