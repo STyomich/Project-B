@@ -33,5 +33,10 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new GetAuctionInfoById.Query { Id = id }));
         }
+        [HttpGet("users-auctions")]
+        public async Task<IActionResult> GetAuctionInfoListWithBidViaClaims()
+        {
+            return HandleResult(await Mediator.Send(new GetAuctionInfoListWithBidViaClaims.Query { User = User }));
+        }
     }
 }

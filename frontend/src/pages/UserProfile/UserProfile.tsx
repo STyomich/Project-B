@@ -4,6 +4,7 @@ import { updateAvatar } from "../../stores/features/user/userSlice";
 import { User } from "../../types/user";
 import UserCars from "./UserCars";
 import { Link } from "react-router-dom";
+import UsersAuctionHistory from "./UsersAuctionHistory";
 
 export default function UserProfile() {
   const { user } = useAppSelector((state) => state.user);
@@ -48,19 +49,19 @@ export default function UserProfile() {
     <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen fade-in">
       <div className="flex flex-row bg-white p-6 rounded-2xl shadow-lg w-full max-w-9/12">
         <div>
-          <div
+          <button
             className="relative inline-block group"
             onClick={handleAvatarClick}
           >
             <img
-              src={preview || user?.avatar || "/assets/images/stock_avatar.jpg"}
+              src={preview ?? user?.avatar ?? "/assets/images/stock_avatar.jpg"}
               alt="User Avatar"
               className="w-32 h-32 rounded-full border-4 border-gray-500 transition-all duration-300 group-hover:brightness-50 cursor-pointer"
             />
             <span className="absolute inset-0 font-semibold flex items-center justify-center text-white text-lg opacity-0 group-hover:opacity-100 transition-opacity">
               Change
             </span>
-          </div>
+          </button>
 
           {/* Hidden file input */}
           <input
@@ -101,6 +102,7 @@ export default function UserProfile() {
           </div>
           <div>
             <h1 className="text-3xl font-bold mb-6">Your auction history:</h1>
+            <UsersAuctionHistory />
           </div>
         </div>
       </div>
