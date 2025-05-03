@@ -154,6 +154,11 @@ export default function AuctionInfo() {
       console.error("Error submitting bid: ", err);
     }
   };
+  const now = new Date();
+  const isAuctionActive =
+    auctionInfo &&
+    new Date(auctionInfo.startDate) <= now &&
+    now <= new Date(auctionInfo.endDate);
 
   return (
     <div className="flex items-start justify-center min-h-screen bg-gray-100 py-10">
@@ -279,11 +284,21 @@ export default function AuctionInfo() {
             value={bidAmount}
             onChange={(e) => setBidAmount(parseFloat(e.target.value))}
             placeholder="Enter your bid"
-            className="border border-gray-300 p-2 rounded w-full"
+            className={`${
+              isAuctionActive
+                ? "border border-gray-300 p-2 rounded w-full"
+                : "bg-gray-400 hidden"
+            } text-white px-4 py-2 rounded w-full`}
+            disabled={!isAuctionActive}
           />
           <button
             onClick={submitBid}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 w-full"
+            disabled={!isAuctionActive}
+            className={`${
+              isAuctionActive
+                ? "bg-blue-600 hover:bg-blue-700"
+                : "bg-gray-400 hidden"
+            } text-white px-4 py-2 rounded w-full`}
           >
             Submit Bid
           </button>
@@ -292,7 +307,12 @@ export default function AuctionInfo() {
               setBidAmount(auctionInfo?.buyoutPrice ?? 0);
               submitBid();
             }}
-            className="bg-green-700 text-white px-4 py-2 rounded hover:bg-green-800 w-full"
+            disabled={!isAuctionActive}
+            className={`${
+              isAuctionActive
+                ? "bg-green-700 hover:bg-green-800"
+                : "bg-gray-400 hidden"
+            } text-white px-4 py-2 rounded w-full`}
           >
             Buy out
           </button>
@@ -304,7 +324,7 @@ export default function AuctionInfo() {
             💰 Current highest bid: $
             {currentBid?.bidAmount ?? auctionInfo?.maxBid?.bidAmount ?? 0}
             {currentBid?.userId === userId && (
-              <span className="text-blue-600"> (You)</span>
+              <span className="text-blue-600"> (You {!isAuctionActive && ("won!")}) </span>
             )}
           </div>
         </div>
