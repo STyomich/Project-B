@@ -88,11 +88,32 @@ const CarDocuments = {
   getCarDocumentsByCarId: (carId: string) =>
     requests.get(`/cardocuments/${carId}`),
 };
-const AuctionInfo ={
-  createAuctionInfo: (auctionInfoDto: AuctionInfoCreateRequest) => requests.post("/auctioninfos", auctionInfoDto),
+const AuctionInfo = {
+  createAuctionInfo: (auctionInfoDto: AuctionInfoCreateRequest) =>
+    requests.post("/auctioninfos", auctionInfoDto),
   getAuctionInfoList: () => requests.get("/auctioninfos"),
-  getAuctionInfoById: (id: string) => requests.get(`/auctioninfos/whole-info/${id}`),
+  getAuctionInfoById: (id: string) =>
+    requests.get(`/auctioninfos/whole-info/${id}`),
   getUsersAuctionInfo: () => requests.get(`/auctioninfos/users-auctions`),
+};
+const Posts = {
+  getPosts: () => requests.get("/posts"),
+  getPostById: (id: string) => requests.get(`/posts/${id}`),
+  getPostsByUserId: (userId: string) => requests.get(`/posts/user/${userId}`),
+  createPost: (body: { title: string; content: string }) =>
+    requests.post("/posts", body),
+  updatePost: (id: string, body: { title: string; content: string }) =>
+    requests.put(`/posts/${id}`, body),
+  deletePost: (id: string) => requests.delete(`/posts/${id}`),
+  reactPost: (id: string, body: { postId: string }) => requests.post(`/posts/${id}/react`, body),
+};
+const Comments = {
+  getCommentsByPostId: (postId: string) =>
+    requests.get(`/comments/post/${postId}`),
+  createComment: (postId: string, body: { postId: string, content: string }) =>
+    requests.post(`/comments/${postId}`, body),
+  deleteComment: (id: string) => requests.delete(`/comments/${id}`),
+  reactComment: (id: string) => requests.delete(`/comments/${id}/react`),
 }
 
 const api = {
@@ -102,6 +123,8 @@ const api = {
   CarTopic,
   CarDocuments,
   AuctionInfo,
+  Posts,
+  Comments,
 };
 
 export default api;

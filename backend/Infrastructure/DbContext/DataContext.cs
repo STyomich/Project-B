@@ -21,6 +21,9 @@ namespace Infrastructure.DbContext
         public DbSet<RegistrationPlate> RegistrationPlates { get; set; }
         public DbSet<AuctionInfo> AuctionInfos { get; set; }
         public DbSet<AuctionBid> AuctionBids { get; set; }
+        public DbSet<Post> Posts { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<UserReaction> UserReactions { get; set; }
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
@@ -77,6 +80,34 @@ namespace Infrastructure.DbContext
                 x.HasKey(ab => new { ab.AuctionInfoId, ab.UserId });
                 x.Property(ab => ab.BidAmount).HasPrecision(18, 4);
             });
+
+            builder.Entity<Post>()
+                .HasMany(p => p.UserReactions)
+                .WithOne(ur => ur.Post)
+                .HasForeignKey(ur => ur.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Post>()
+                .HasMany(p => p.Comments)
+                .WithOne(c => c.Post)
+                .HasForeignKey(c => c.PostId)
+                .OnDelete(DeleteBehavior.Cascade);
+
+            builder.Entity<Comment>()
+                .HasOne(c => c.User)
+                .WithMany()
+                .HasForeignKey(c => c.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
+            builder.Entity<UserReaction>()
+                .HasKey(ur => new { ur.UserId, ur.PostId });
+
+            builder.Entity<UserReaction>()
+                .HasOne(ur => ur.User)
+                .WithMany()
+                .HasForeignKey(ur => ur.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

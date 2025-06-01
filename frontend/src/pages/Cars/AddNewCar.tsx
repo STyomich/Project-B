@@ -16,7 +16,7 @@ export default function AddNewCar() {
       carName: "",
       carModel: "",
       carYear: 0,
-      carDescription: "",
+      description: "",
       imageLogoUrl: "",
     },
     registrationCountry: "",

@@ -19,9 +19,11 @@ export default function Header() {
                 Auctions
               </button>
             </Link>
-            <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Shop
-            </button>
+            <Link to="/posts">
+              <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
+                Blogs
+              </button>
+            </Link>
           </div>
 
           {/* Logo */}

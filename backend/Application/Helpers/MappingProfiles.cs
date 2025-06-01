@@ -64,6 +64,14 @@ namespace Application.Helpers
             // Auction Bids
             CreateMap<AuctionBid, AuctionBidDto>();
             CreateMap<AuctionBidDto, AuctionBid>();
+
+            // Posts
+            CreateMap<Post, PostDto>();
+            CreateMap<PostDto, Post>();
+
+            // Comments
+            CreateMap<Comment, CommentDto>();
+            CreateMap<CommentDto, Comment>();
         }
     }
 }

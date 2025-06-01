@@ -11,6 +11,7 @@ import UploadCarDocuments from "../pages/Cars/UploadCarDocuments";
 import StartAuctionForm from "../pages/Auctions/StartAuctionForm";
 import Auctions from "../pages/Auctions/Auctions";
 import AuctionInfo from "../pages/Auctions/AuctionInfo";
+import PostsList from "../pages/Blogs/PostsList";
 
 export const routes: RouteObject[] = [
   {
@@ -29,6 +30,7 @@ export const routes: RouteObject[] = [
       { path: "/user-car/:carId/start-auction-form", Component: StartAuctionForm },
       { path: "/auctions", Component: Auctions },
       { path: "/auctions/:auctionInfoId", Component: AuctionInfo },
+      { path: "/posts", Component: PostsList }, // Placeholder for posts, can be replaced with a dedicated posts page
     ],
   },
 ];
