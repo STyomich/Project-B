@@ -22,6 +22,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 app.MapHub<AuctionBidHub>("/hubs/auctionbid");
+app.MapHub<ChatHub>("/hubs/chatHub");
 
 
 // Seed data.

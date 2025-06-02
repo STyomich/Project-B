@@ -6,6 +6,7 @@ import * as signalR from "@microsoft/signalr";
 import api from "../../services/api";
 import { AxiosResponse } from "axios";
 import { AuctionInfoDto } from "../../types/auctionInfo";
+import Chat from "./Chat";
 
 export default function AuctionInfo() {
   const { user } = useAppSelector((state) => state.user);
@@ -328,6 +329,9 @@ export default function AuctionInfo() {
             )}
           </div>
         </div>
+      </div>
+      <div>
+        <Chat />
       </div>
     </div>
   );

@@ -92,6 +92,12 @@ const AuctionInfo = {
   createAuctionInfo: (auctionInfoDto: AuctionInfoCreateRequest) =>
     requests.post("/auctioninfos", auctionInfoDto),
   getAuctionInfoList: () => requests.get("/auctioninfos"),
+  getLiveAuctionInfoList: () =>
+    requests.get("/auctioninfos/is-live"),
+  getUpcomingAuctionInfoList: () =>
+    requests.get("/auctioninfos/upcoming"),
+  getDeprecatedAuctionInfoList: () =>
+    requests.get("/auctioninfos/deprecated"),
   getAuctionInfoById: (id: string) =>
     requests.get(`/auctioninfos/whole-info/${id}`),
   getUsersAuctionInfo: () => requests.get(`/auctioninfos/users-auctions`),

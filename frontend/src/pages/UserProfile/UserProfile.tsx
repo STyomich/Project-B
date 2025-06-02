@@ -48,7 +48,7 @@ export default function UserProfile() {
 
   return (
     <div className="flex flex-col items-center p-6 bg-gray-100 min-h-screen fade-in">
-      <div className="flex flex-row bg-white p-6 rounded-2xl shadow-lg w-full max-w-9/12">
+      <div className="flex flex-row bg-white p-6 rounded-2xl shadow-lg w-full max-w-10/12">
         {/* Left side: Avatar and Info */}
         <div>
           <button className="relative inline-block group" onClick={handleAvatarClick}>

@@ -16,7 +16,21 @@ namespace API.Controllers
         {
             return HandleResult(await Mediator.Send(new ListAuctionInfo.Query()));
         }
-
+        [HttpGet("is-live")]
+        public async Task<IActionResult> ListLiveAuctionInfo()
+        {
+            return HandleResult(await Mediator.Send(new ListLiveAuctionInfo.Query()));
+        }
+        [HttpGet("upcoming")]
+        public async Task<IActionResult> ListUpcomingAuctionInfo()
+        {
+            return HandleResult(await Mediator.Send(new ListUpcomingAuctionInfo.Query()));
+        }
+        [HttpGet("deprecated")]
+        public async Task<IActionResult> ListDeprecatedAuctionInfo()
+        {
+            return HandleResult(await Mediator.Send(new ListDeprecatedAuctionInfo.Query()));
+        }
         [HttpGet("{carId}")]
         public async Task<IActionResult> GetAuctionByCarId(Guid carId)
         {
