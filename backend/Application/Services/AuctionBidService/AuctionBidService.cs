@@ -17,7 +17,7 @@ namespace Application.Services.AuctionBidService
             var auction = await _context.AuctionInfos.FindAsync(auctionBid.AuctionInfoId);
             if (auction == null) return false;
 
-            if (auctionBid.BidAmount < auction.StartPrice || auctionBid.BidAmount >= auction.BuyoutPrice) return false;
+            if (auctionBid.BidAmount < auction.StartPrice || auctionBid.BidAmount > auction.BuyoutPrice) return false;
 
             var currentMaxBid = _context.AuctionBids
                 .Where(b => b.AuctionInfoId == auctionBid.AuctionInfoId)

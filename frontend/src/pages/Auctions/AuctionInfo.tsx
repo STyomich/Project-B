@@ -7,12 +7,14 @@ import api from "../../services/api";
 import { AxiosResponse } from "axios";
 import { AuctionInfoDto } from "../../types/auctionInfo";
 import Chat from "./Chat";
+import { useTranslation } from "react-i18next";
 
 export default function AuctionInfo() {
+  const { t } = useTranslation();
   const { user } = useAppSelector((state) => state.user);
   const [currentBid, setCurrentBid] = useState<AuctionBidDto | null>(null);
   const [bidAmount, setBidAmount] = useState<number>(0);
-  const [isConnected, setIsConnected] = useState(false);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
   const [auctionInfo, setAuctionInfo] = useState<AuctionInfoDto>();
   const connectionRef = useRef<signalR.HubConnection | null>(null);
   const auctionInfoId = useParams().auctionInfoId as string;
@@ -131,7 +133,7 @@ export default function AuctionInfo() {
       : "/assets/images/no-image-icon.png";
 
   // Submit bid when the connection is established
-  const submitBid = async () => {
+  const submitBid = async (price: number) => {
     const connection = connectionRef.current;
 
     if (!isConnected || !connection || connection.state !== "Connected") {
@@ -142,14 +144,14 @@ export default function AuctionInfo() {
     const bid: AuctionBidDto = {
       auctionInfoId,
       userId,
-      bidAmount,
+      bidAmount: price,
       bidDate: new Date(),
     };
 
     try {
       await connection.invoke("SubmitBid", bid);
-      if (bidAmount == auctionInfo?.buyoutPrice) {
-        alert("Congratulations! You bought the car!");
+      if (price == auctionInfo?.buyoutPrice) {
+        alert(t("Congratulations! You bought the car!"));
       }
     } catch (err) {
       console.error("Error submitting bid: ", err);
@@ -165,7 +167,7 @@ export default function AuctionInfo() {
     <div className="flex items-start justify-center min-h-screen bg-gray-100 py-10">
       <div className="p-6 w-250 rounded-lg shadow-md bg-white space-y-6">
         <h2 className="text-2xl font-bold text-gray-800 text-center">
-          🚗 Live Auction
+          🚗 {t("Auction")}
         </h2>
         <div className="flex gap-8 items-start bg-white shadow-lg rounded-lg p-6">
           <div>
@@ -197,18 +199,21 @@ export default function AuctionInfo() {
 
                 <div className="bg-gray-100 p-4 rounded mt-4 space-y-2 text-lg">
                   <p>
-                    <strong>Start Price:</strong> ${auctionInfo.startPrice}
+                    <strong>{t("Start Price")}:</strong> $
+                    {auctionInfo.startPrice}
                   </p>
                   <p>
-                    <strong>Buyout Price:</strong> ${auctionInfo.buyoutPrice}
+                    <strong>{t("Buyout Price")}:</strong> $
+                    {auctionInfo.buyoutPrice}
                   </p>
                   <p>
-                    <strong>Auction Ends:</strong>{" "}
+                    <strong>{t("Auction Ends")}:</strong>{" "}
                     {new Date(auctionInfo.endDate).toLocaleString()}
                   </p>
                   {auctionInfo.car && (
                     <p>
-                      <strong>Car:</strong> {auctionInfo.car.carTopic.carName}{" "}
+                      <strong>{t("Car")}:</strong>{" "}
+                      {auctionInfo.car.carTopic.carName}{" "}
                       {auctionInfo.car.carTopic.carModel}
                     </p>
                   )}
@@ -224,15 +229,15 @@ export default function AuctionInfo() {
             </h2>
             {auctionInfo?.car?.registrationPlate?.text ? (
               <p className="mb-2">
-                <span className="font-semibold">Plate Number:</span>{" "}
+                <span className="font-semibold">{t("Plate Number")}:</span>{" "}
                 {auctionInfo?.car?.registrationPlate.text}
-                <span className="font-semibold ml-2">Country:</span>{" "}
+                <span className="font-semibold ml-2">{t("Country")}:</span>{" "}
                 {auctionInfo?.car?.registrationPlate.country}
               </p>
             ) : (
               <p>
                 <a className="text-red-700">
-                  Registration plate information not provided.
+                  {t("Registration plate information not provided.")}
                 </a>
               </p>
             )}
@@ -243,26 +248,28 @@ export default function AuctionInfo() {
                   className="hover:underline text-blue-700"
                   href={auctionInfo?.car?.carDocuments.url}
                 >
-                  Car documents
+                  {t("Car documents")}
                 </a>
               </p>
             ) : (
               <p>
-                <a className="text-red-700">Car documents not uploaded.</a>
+                <a className="text-red-700">
+                  {t("Car documents not uploaded.")}
+                </a>
               </p>
             )}
             <p>
-              <span className="font-semibold">Owners description:</span>{" "}
+              <span className="font-semibold">{t("Owners description")}:</span>{" "}
               {auctionInfo?.car?.ownersDescription}
             </p>
             <p>
-              <span className="font-semibold">Car topic:</span>{" "}
+              <span className="font-semibold">{t("Car topic")}:</span>{" "}
               {auctionInfo?.car?.carTopic.description}
             </p>
           </div>
           <div>
             <p className="mb-2">
-              <span className="font-semibold">Owner:</span>{" "}
+              <span className="font-semibold">{t("Owner")}:</span>{" "}
             </p>
             <img
               src={
@@ -289,11 +296,11 @@ export default function AuctionInfo() {
               isAuctionActive
                 ? "border border-gray-300 p-2 rounded w-full"
                 : "bg-gray-400 hidden"
-            } text-white px-4 py-2 rounded w-full`}
+            } text-black px-4 py-2 rounded w-full`}
             disabled={!isAuctionActive}
           />
           <button
-            onClick={submitBid}
+            onClick={() => submitBid(bidAmount)}
             disabled={!isAuctionActive}
             className={`${
               isAuctionActive
@@ -301,12 +308,11 @@ export default function AuctionInfo() {
                 : "bg-gray-400 hidden"
             } text-white px-4 py-2 rounded w-full`}
           >
-            Submit Bid
+            {t("Submit Bid")}
           </button>
           <button
             onClick={() => {
-              setBidAmount(auctionInfo?.buyoutPrice ?? 0);
-              submitBid();
+              submitBid(auctionInfo?.buyoutPrice ?? 0);
             }}
             disabled={!isAuctionActive}
             className={`${
@@ -315,17 +321,22 @@ export default function AuctionInfo() {
                 : "bg-gray-400 hidden"
             } text-white px-4 py-2 rounded w-full`}
           >
-            Buy out
+            {t("Buy out")}
           </button>
         </div>
 
         <div className="mt-4">
-          <h3 className="text-xl font-semibold text-center">📜 Bid History</h3>
+          <h3 className="text-xl font-semibold text-center">
+            📜 {t("Bid History")}
+          </h3>
           <div className="text-green-600 font-medium mt-2 text-center">
-            💰 Current highest bid: $
+            💰 {t("Current highest bid")}: $
             {currentBid?.bidAmount ?? auctionInfo?.maxBid?.bidAmount ?? 0}
             {currentBid?.userId === userId && (
-              <span className="text-blue-600"> (You {!isAuctionActive && ("won!")}) </span>
+              <span className="text-blue-600">
+                {" "}
+                ({t("You")} {!isAuctionActive && t("won!")})
+              </span>
             )}
           </div>
         </div>

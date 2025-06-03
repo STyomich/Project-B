@@ -3,8 +3,10 @@ import * as Yup from "yup";
 import { AuctionInfoCreateRequest } from "../../types/auctionInfo";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 export default function StartAuctionForm() {
+  const { t } = useTranslation();
   const carId = useParams().carId as string;
 
   const formik = useFormik({
@@ -39,11 +41,11 @@ export default function StartAuctionForm() {
           endDate: new Date(values.endDate),
         };
         await api.AuctionInfo.createAuctionInfo(auctionInfo);
-        alert("Auction info submited successfully!");
+        alert(t("Auction info submited successfully!"));
         resetForm();
       } catch (error) {
         console.error("Error in submiting auction info:", error);
-        alert("Failed to submit auction info");
+        alert(t("Failed to submit auction info"));
       }
     },
   });
@@ -58,7 +60,7 @@ export default function StartAuctionForm() {
           htmlFor="startPrice"
           className="block text-sm font-medium text-gray-700"
         >
-          Start Price
+          {t("Start Price")}
         </label>
         <div className="mt-1 flex items-center">
           <input
@@ -82,7 +84,7 @@ export default function StartAuctionForm() {
           htmlFor="buyoutPrice"
           className="block text-sm font-medium text-gray-700"
         >
-          Buyout Price
+          {t("Buyout Price")}
         </label>
         <div className="mt-1 flex items-center">
           <input
@@ -106,7 +108,7 @@ export default function StartAuctionForm() {
           htmlFor="startDate"
           className="block text-sm font-medium text-gray-700"
         >
-          Start Date
+          {t("Start Date")}
         </label>
         <input
           id="startDate"
@@ -127,7 +129,7 @@ export default function StartAuctionForm() {
           htmlFor="endDate"
           className="block text-sm font-medium text-gray-700"
         >
-          End Date
+          {t("End Date")}
         </label>
         <input
           id="endDate"
@@ -147,7 +149,7 @@ export default function StartAuctionForm() {
         type="submit"
         className="w-full bg-blue-600 text-white py-2 px-4 rounded hover:bg-blue-700 transition"
       >
-        Start Auction
+        {t("Start Auction")}
       </button>
     </form>
   );

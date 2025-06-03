@@ -6,6 +6,7 @@ WORKDIR /src
 COPY Project-B.sln . 
 COPY API/API.csproj API/
 COPY Application/Application.csproj Application/
+COPY Application.Tests/Application.Tests.csproj Application.Tests/
 COPY Core/Core.csproj Core/
 COPY Infrastructure/Infrastructure.csproj Infrastructure/
 

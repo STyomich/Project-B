@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { CarFormData } from "../../../types/car";
+import { useTranslation } from "react-i18next";
 
 interface Props {
     data: CarFormData;
@@ -9,6 +10,7 @@ interface Props {
   }
 
 export default function AddNewCarFormStepTwo({ data, updateData, next, back }: Props) {
+  const {t} = useTranslation();
   const [country, setCountry] = useState(data.registrationCountry || "");
   const [text, setText] = useState(data.registrationText || "");
 
@@ -19,18 +21,18 @@ export default function AddNewCarFormStepTwo({ data, updateData, next, back }: P
 
   return (
     <div className="fade-in">
-      <h2 className="text-xl font-bold mb-4">Step 2: Registration Plate</h2>
+      <h2 className="text-xl font-bold mb-4">{t("Step 2: Registration Plate")}</h2>
       <div className="mb-2">
         <input
           type="text"
-          placeholder="Country"
+          placeholder={t("Country")}
           className="p-2 border border-gray-300 rounded"
           value={country}
           onChange={(e) => setCountry(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Plate Text"
+          placeholder={t("Plate Text")}
           className="p-2 border border-gray-300 rounded"
           value={text}
           onChange={(e) => setText(e.target.value)}
@@ -39,7 +41,7 @@ export default function AddNewCarFormStepTwo({ data, updateData, next, back }: P
 
       <div className="flex gap-4 mt-4">
         <button className="btn hover:underline" onClick={back}>
-          Back
+          {t("Back")}
         </button>
         <button
           className={`px-4 py-2 font-semibold rounded p-2 text-white ${
@@ -51,7 +53,7 @@ export default function AddNewCarFormStepTwo({ data, updateData, next, back }: P
           onClick={handleNext}
           disabled={!country || !text}
         >
-          Next
+          {t("Next")}
         </button>
       </div>
     </div>

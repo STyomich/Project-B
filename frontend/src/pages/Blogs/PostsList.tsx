@@ -2,8 +2,10 @@ import { useEffect, useState, FormEvent } from "react";
 import { PostInfo } from "../../types/post";
 import api from "../../services/api";
 import { AxiosResponse } from "axios";
+import { useTranslation } from "react-i18next";
 
 export default function PostsList() {
+  const { t } = useTranslation();
   const [posts, setPosts] = useState<PostInfo[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -86,16 +88,18 @@ export default function PostsList() {
         onSubmit={handleCreatePost}
         className="bg-white shadow rounded-lg p-4 border border-gray-200 space-y-3"
       >
-        <h2 className="text-xl font-semibold text-gray-800">Create New Post</h2>
+        <h2 className="text-xl font-semibold text-gray-800">
+          {t("Create New Post")}
+        </h2>
         <input
           type="text"
-          placeholder="Title"
+          placeholder={t("Title")}
           value={newTitle}
           onChange={(e) => setNewTitle(e.target.value)}
           className="w-full px-3 py-2 border rounded-md"
         />
         <textarea
-          placeholder="Content"
+          placeholder={t("Content")}
           value={newContent}
           onChange={(e) => setNewContent(e.target.value)}
           rows={4}
@@ -104,16 +108,16 @@ export default function PostsList() {
         <button
           type="submit"
           disabled={submitting}
-          className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 disabled:opacity-50"
+          className="bg-gray-600 text-white px-4 py-2 rounded hover:bg-gray-700 disabled:opacity-50"
         >
-          {submitting ? "Posting..." : "Post"}
+          {submitting ? t("Posting...") : t("Post")}
         </button>
       </form>
 
       {loading && <div className="text-center py-4">Loading...</div>}
       {error && <div className="text-red-500 text-center py-4">{error}</div>}
       {!loading && !error && posts.length === 0 && (
-        <div className="text-center text-gray-500">No posts found.</div>
+        <div className="text-center text-gray-500">{t("No posts found.")}</div>
       )}
 
       {/* Posts List */}
@@ -166,8 +170,7 @@ export default function PostsList() {
                   {post.reactionsCount}
                 </button>
                 <span>
-                  {post.comments?.length ?? 0} comment
-                  {(post.comments?.length ?? 0) !== 1 && "s"}
+                  {post.comments?.length ?? 0} 💬
                 </span>
               </div>
 
@@ -183,9 +186,7 @@ export default function PostsList() {
                       alt="avatar"
                       className="w-10 h-10 rounded-full object-cover"
                     />
-                    <div
-                      className="text-sm bg-gray-100 p-2 rounded-md"
-                    >
+                    <div className="text-sm bg-gray-100 p-2 rounded-md">
                       <strong>{comment.user?.userNickname || "Anon"}:</strong>{" "}
                       {comment.content}
                     </div>
@@ -199,9 +200,9 @@ export default function PostsList() {
                         [post.id]: !prev[post.id],
                       }))
                     }
-                    className="text-blue-600 text-sm hover:underline"
+                    className="text-gray-600 text-sm hover:underline"
                   >
-                    {showAll ? "Hide comments" : "Show all comments"}
+                    {showAll ? t("Hide comments") : t("Show all comments")}
                   </button>
                 )}
               </div>
@@ -210,7 +211,7 @@ export default function PostsList() {
               <div className="flex mt-2 gap-2">
                 <input
                   type="text"
-                  placeholder="Write a comment..."
+                  placeholder={t("Write a comment...")}
                   value={commentInputs[post.id] || ""}
                   onChange={(e) =>
                     setCommentInputs((prev) => ({
@@ -222,9 +223,9 @@ export default function PostsList() {
                 />
                 <button
                   onClick={() => handleAddComment(post.id)}
-                  className="bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
+                  className="bg-gray-600 text-white px-3 py-1 rounded hover:bg-gray-700"
                 >
-                  Send
+                  {t("Send")}
                 </button>
               </div>
             </div>

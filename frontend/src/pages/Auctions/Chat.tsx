@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import * as signalR from "@microsoft/signalr";
 import { useAppSelector } from "../../stores/hooks";
+import { useTranslation } from "react-i18next";
 
 interface ChatMessage {
   nickname: string;
@@ -8,6 +9,7 @@ interface ChatMessage {
 }
 
 const Chat: React.FC = () => {
+  const {t} = useTranslation();
   const { user } = useAppSelector((state) => state.user);
   const [connection, setConnection] = useState<signalR.HubConnection | null>(
     null
@@ -57,15 +59,15 @@ const Chat: React.FC = () => {
 
   return (
     <div style={{ padding: 20, maxWidth: 600, margin: "0 auto" }}>
-      <h2 className="text-3xl">Chat Room</h2>
+      <h2 className="text-3xl">{t("Chat Room")}</h2>
       <div style={{ marginBottom: 10 }}>
-        <strong>Nickname:</strong>{" "}
+        <strong>{t("Nickname")}:</strong>{" "}
         <input value={nickname} onChange={(e) => setNickname(e.target.value)} />
       </div>
       <div className="flex items-center gap-2">
         <input
           type="text"
-          placeholder="Type a message..."
+          placeholder={t("Type a message...")}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => e.key === "Enter" && sendMessage()}
@@ -76,7 +78,7 @@ const Chat: React.FC = () => {
           className="px-4 py-2 bg-green-400 hover:underline text-white font-semibold p-2 mt-3 rounded"
           style={{ marginLeft: 10 }}
         >
-          Send
+          {t("Send")}
         </button>
       </div>
       <div

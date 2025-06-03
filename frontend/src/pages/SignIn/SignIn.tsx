@@ -4,6 +4,7 @@ import { useAppDispatch } from "../../stores/hooks";
 import { login } from "../../stores/features/user/userSlice";
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const validationSchema = Yup.object({
   email: Yup.string()
@@ -17,16 +18,17 @@ const validationSchema = Yup.object({
 });
 
 export default function SignIn() {
+  const {t} = useTranslation();
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [loginError, setLoginError] = useState("");
 
   return (
     <div className="flex flex-col items-center bg-gray-100 p-4 min-h-screen fade-in">
-      <h1 className="text-4xl font-bold">Sign In</h1>
+      <h1 className="text-4xl font-bold">{t("Sign In")}</h1>
       <div className="bg-white p-6 shadow-lg rounded-lg mt-6">
         <h2 className="font-semibold text-2xl space-y-4">
-          Enter your credentials to access your account.
+          {t("Enter your credentials to access your account.")}
         </h2>
         <Formik
           initialValues={{ email: "", password: "" }}
@@ -37,10 +39,10 @@ export default function SignIn() {
               if (response.status === 200) {
                 navigate("/");
               } else {
-                setLoginError("Invalid email or password.");
+                setLoginError(t("Invalid email or password."));
               }
             } catch {
-              setLoginError("An error occurred. Invalid email or password.");
+              setLoginError(t("An error occurred. Invalid email or password."));
             } finally {
               setSubmitting(false);
             }
@@ -91,7 +93,7 @@ export default function SignIn() {
                   disabled={isSubmitting}
                   className="bg-gray-700 hover:bg-gray-800 text-white font-semibold p-2 rounded"
                 >
-                  Sign In
+                  {t("Sign In")}
                 </button>
               </Form>
             </>

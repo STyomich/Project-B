@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import api from "../../services/api";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface ImagePreview {
   file: File;
@@ -10,6 +11,7 @@ interface ImagePreview {
 }
 
 export default function UploadCarImages() {
+  const { t } = useTranslation();
   const [images, setImages] = useState<ImagePreview[]>([]);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const carId = useParams().carId as string;
@@ -46,7 +48,7 @@ export default function UploadCarImages() {
           images[i].isMain
         );
         if (response.status !== 200) {
-          alert("Error uploading image");
+          alert(t("Error uploading image"));
         }
 
         setImages((prev) =>
@@ -86,7 +88,7 @@ export default function UploadCarImages() {
         htmlFor="fileInput"
         className="px-4 py-2 font-semibold rounded text-white bg-gray-700 hover:bg-gray-800 cursor-pointer"
       >
-        Upload Images
+        {t("Upload Images")}
       </label>
 
       <div className="flex gap-4 mt-4 flex-wrap">
@@ -103,7 +105,7 @@ export default function UploadCarImages() {
             />
             {img.isMain && (
               <div className="absolute top-1 left-1 bg-green-600 text-white px-2 py-0.5 text-xs rounded">
-                Main
+                {t("Main")}
               </div>
             )}
             {img.uploaded && (
@@ -118,7 +120,7 @@ export default function UploadCarImages() {
           className="px-6 mt-6 py-2 rounded transition bg-green-600 text-white hover:bg-green-700"
           onClick={uploadImages}
         >
-          🚀 Submit Images
+          🚀 {t("Submit Images")}
         </button>
       )}
     </div>

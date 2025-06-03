@@ -3,6 +3,7 @@ import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import api from "../../services/api";
 import { AuctionInfoListItemDto } from "../../types/auctionInfo";
+import { useTranslation } from "react-i18next";
 
 interface LiveAuctionsProps {
   searchByNameParams?: string;
@@ -11,6 +12,7 @@ interface LiveAuctionsProps {
 export default function LiveAuctions({
   searchByNameParams,
 }: LiveAuctionsProps) {
+  const { t } = useTranslation();
   const [auctions, setAuctions] = useState<AuctionInfoListItemDto[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
 
@@ -52,11 +54,11 @@ export default function LiveAuctions({
 
   return (
     <div className="flex flex-col items-center justify-start min-h-screen bg-gray-50 p-6">
-      <h1 className="text-3xl font-bold mb-6">Live Auctions</h1>
-      <div className="flex flex-row flex-wrap gap-6 justify-center">
+      <h1 className="text-3xl font-bold mb-6">{t("Live Auctions")}</h1>
+      <div className="flex flex-row flex-wrap gap-6 bg-gray-100 rounded-xl">
         {filteredAuctions.map((auction) => (
           <Link to={`/auctions/${auction.id}`} key={auction.id}>
-            <div className="bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 w-[300px] transform transition-transform duration-500 hover:scale-105">
+            <div className="mt-5 ml-5 mr-5 bg-white shadow-md rounded-xl overflow-hidden border border-gray-200 w-[300px] transform transition-transform duration-500 hover:scale-105">
               <img
                 src={
                   auction.car?.carMainImage?.imageUrl ||
@@ -72,42 +74,35 @@ export default function LiveAuctions({
                   {auction.car?.carTopic.carModel}
                 </h2>
                 <p className="text-sm text-gray-600 mb-1">
-                  <strong>Start Price:</strong> $
+                  <strong>{t("Start Price")}:</strong> $
                   {auction.startPrice.toLocaleString()}
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
-                  <strong>Buyout Price:</strong> $
+                  <strong>{t("Buyout Price")}:</strong> $
                   {auction.buyoutPrice.toLocaleString()}
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
-                  <strong>Max Bid:</strong>{" "}
+                  <strong>{t("Max Bid")}:</strong>{" "}
                   {auction.maxBid
                     ? `$${auction.maxBid.bidAmount.toLocaleString()}`
-                    : "No bids yet"}
+                    : t("No bids yet")}
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
-                  <strong>Start:</strong>{" "}
+                  <strong>{t("Start Date")}:</strong>{" "}
                   {new Date(auction.startDate).toLocaleString()}
                 </p>
                 <p className="text-sm text-gray-600">
-                  <strong>End:</strong>{" "}
+                  <strong>{t("End Date")}:</strong>{" "}
                   {new Date(auction.endDate).toLocaleString()}
                 </p>
                 {(() => {
-                  const now = new Date();
-                  const start = new Date(auction.startDate);
-                  const end = new Date(auction.endDate);
-                  const isLive = now >= start && now <= end;
-
                   return (
                     <span
-                      className={`inline-block text-sm font-semibold px-3 py-1 rounded-full mt-3 ${
-                        isLive
-                          ? "bg-green-100 text-green-800"
-                          : "bg-yellow-100 text-yellow-800"
-                      }`}
+                      className={`inline-block text-sm font-semibold px-3 py-1 rounded-full mt-3
+                        bg-green-100 text-green-800
+                      `}
                     >
-                      Status: {isLive ? "Live" : "Not in live"}
+                      {t("Status")}: {t("Live")}
                     </span>
                   );
                 })()}

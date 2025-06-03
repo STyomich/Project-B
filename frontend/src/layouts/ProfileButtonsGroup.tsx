@@ -2,8 +2,10 @@ import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "../stores/hooks";
 import { getUser, logout } from "../stores/features/user/userSlice";
 import { Link, useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function ProfileButtonsGroup() {
+  const { t } = useTranslation();
   const dispatch = useAppDispatch();
   const { user } = useAppSelector((state) => state.user);
   const navigate = useNavigate();
@@ -14,7 +16,7 @@ export default function ProfileButtonsGroup() {
     }
   }, [dispatch, user]);
 
-  function handleLogoutButton(){
+  function handleLogoutButton() {
     dispatch(logout());
     navigate("/", { replace: true });
   }
@@ -43,20 +45,20 @@ export default function ProfileButtonsGroup() {
             onClick={() => handleLogoutButton()}
             className="text-white font-semibold hover:text-gray-400 p-2 rounded"
           >
-            Logout
+            {t("Logout")}
           </button>
         </>
       ) : (
         <>
           <Link to="/sign-in">
             <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Sign In
+              {t("Sign In")}
             </button>
           </Link>
           <p> | </p>
           <Link to="/sign-up">
             <button className="text-white font-semibold hover:text-gray-400 p-2 rounded">
-              Sign Up
+              {t("Sign Up")}
             </button>
           </Link>
         </>

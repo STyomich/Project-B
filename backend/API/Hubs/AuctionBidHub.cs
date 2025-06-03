@@ -60,7 +60,7 @@ namespace API.Hubs
             {
                 await Clients.Caller.SendAsync("BidRejected", new
                 {
-                    Message = $"Your bid (${bidDto.BidAmount}) is lower than current max bid."
+                    Message = $"Your bid (${bidDto.BidAmount}) is incorrect."
                 });
             }
         }

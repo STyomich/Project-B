@@ -4,8 +4,10 @@ import api from "../../services/api";
 import { AxiosResponse } from "axios";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function UserCarInfo() {
+  const {t}= useTranslation();
   const [car, setCar] = useState<Car | null>(null);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const carId = useParams().carId as string;
@@ -73,19 +75,19 @@ export default function UserCarInfo() {
           <div className="flex flex-row gap-2 mt-4">
             <Link to={`/user-car/${carId}/upload-images`}>
               <button className="px-4 py-2 bg-white hover:underline text-black font-semibold p-2 mt-3 rounded">
-                Upload Images
+                {t("Upload Images")}
               </button>
             </Link>
             <Link to={`/user-car/${carId}/upload-car-documents`}>
               <button className="px-4 py-2 bg-white hover:underline text-black font-semibold p-2 mt-3 rounded">
-                Upload car documents
+                {t("Upload car documents")}
               </button>
             </Link>
           </div>
           <div>
             <Link to={`/user-car/${carId}/start-auction-form`}>
             <button className="px-4 py-2 bg-green-700 hover:underline text-white font-semibold p-2 mt-3 rounded">
-              Start auction
+              {t("Start auction")}
             </button>
             </Link>
           </div>
@@ -99,28 +101,28 @@ export default function UserCarInfo() {
           </h2>
           {car.registrationPlate?.text ? (
             <p className="mb-2">
-              <span className="font-semibold">Plate Number:</span>{" "}
+              <span className="font-semibold">{t("Plate Number")}:</span>{" "}
               {car.registrationPlate.text}
             </p>
           ) : (
             <p>
               <a className="text-red-700">
-                Registration plate information not provided.
+                {t("Registration plate information not provided.")}
               </a>
             </p>
           )}
 
           {car.carDocuments ? (
             <p>
-              <a className="hover:underline text-blue-700" href={car.carDocuments.url}>Car documents</a>
+              <a className="hover:underline text-blue-700" href={car.carDocuments.url}>{t("Car documents")}</a>
             </p>
           ) : (
             <p>
-              <a className="text-red-700">Car documents not uploaded.</a>
+              <a className="text-red-700">{t("Car documents not uploaded.")}</a>
             </p>
           )}
           <p>
-            <span className="font-semibold">Description:</span>{" "}
+            <span className="font-semibold">{t("Description")}:</span>{" "}
             {car.ownersDescription}
           </p>
         </div>

@@ -1,8 +1,10 @@
 import { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import api from "../../services/api";
+import { useTranslation } from "react-i18next";
 
 export default function UploadCarDocuments() {
+  const { t } = useTranslation();
   const carId = useParams().carId as string;
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
@@ -34,19 +36,19 @@ export default function UploadCarDocuments() {
         carId
       );
       if (response.status === 200) {
-        alert("File uploaded successfully!");
+        alert(t("File uploaded successfully!"));
       } else {
-        alert("Failed to upload file.");
+        alert(t("Failed to upload file."));
       }
     } catch (error) {
       console.error("Upload error:", error);
-      alert("An error occurred while uploading.");
+      alert(t("An error occurred while uploading."));
     }
   };
 
   return (
     <div className="flex flex-col gap-4 items-center p-6">
-      <h2 className="text-2xl font-semibold">Upload Car Document (PDF)</h2>
+      <h2 className="text-2xl font-semibold">{t("Upload Car Document")} (PDF)</h2>
 
       {/* Hidden file input */}
       <input
@@ -62,7 +64,7 @@ export default function UploadCarDocuments() {
         onClick={() => fileInputRef.current?.click()}
         className="px-4 py-2 font-semibold rounded text-white bg-gray-700 hover:bg-gray-800 cursor-pointer"
       >
-        {selectedFile ? "Change File" : "Choose PDF File"}
+        {selectedFile ? t("Change File") : t("Choose PDF File")}
       </button>
 
       {/* Preview */}
@@ -84,7 +86,7 @@ export default function UploadCarDocuments() {
             : "bg-gray-400 text-gray-700 cursor-not-allowed"
         }`}
       >
-        Submit
+        {t("Submit")}
       </button>
     </div>
   );

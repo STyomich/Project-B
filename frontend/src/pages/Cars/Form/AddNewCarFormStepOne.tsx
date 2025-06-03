@@ -3,6 +3,7 @@ import { CarFormData } from "../../../types/car";
 import { CarTopic } from "../../../types/carTopic";
 import api from "../../../services/api";
 import { AxiosResponse } from "axios";
+import { useTranslation } from "react-i18next";
 
 interface Props {
   data: CarFormData;
@@ -15,6 +16,7 @@ export default function AddNewCarFormStepOne({
   updateData,
   next,
 }: Props) {
+  const { t } = useTranslation();
   const [name, setName] = useState(data.carTopic.carName || "");
   const [model, setModel] = useState(data.carTopic.carModel || "");
   const [selectedCarTopic, setSelectedCarTopic] = useState<CarTopic | null>(
@@ -35,18 +37,18 @@ export default function AddNewCarFormStepOne({
 
   return (
     <div className="fade-in">
-      <h2 className="text-xl font-bold mb-4">Step 1: Search Car Topic</h2>
+      <h2 className="text-xl font-bold mb-4">{t("Step 1: Search Car Topic")}</h2>
       <div className="mb-2">
         <input
           type="text"
-          placeholder="Car Name"
+          placeholder={t("Car Name")}
           className="p-2 border border-gray-300 rounded"
           value={name}
           onChange={(e) => setName(e.target.value)}
         />
         <input
           type="text"
-          placeholder="Car Model"
+          placeholder={t("Car Model")}
           className="p-2 border border-gray-300 rounded"
           value={model}
           onChange={(e) => setModel(e.target.value)}
@@ -55,11 +57,11 @@ export default function AddNewCarFormStepOne({
           className="px-4 py-2 bg-gray-700 hover:bg-gray-800 text-white font-semibold p-2 rounded"
           onClick={search}
         >
-          Search
+          {t("Search")}
         </button>
       </div>
 
-      {loading && <p>Loading...</p>}
+      {loading && <p>{t("Loading...")}</p>}
 
       <ul className="mt-4">
         {results.map((car) => (
@@ -97,7 +99,7 @@ export default function AddNewCarFormStepOne({
         disabled={!data.carTopic.id}
         onClick={next}
       >
-        Next
+        {t("Next")}
       </button>
     </div>
   );
