@@ -3,12 +3,14 @@ import { getUsersCars } from "../../stores/features/user/userSlice";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { CarListItemDto } from "../../types/car";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 interface UserCarsProps {
   nickname: string;
 }
 
 export default function UserCars({ nickname }: UserCarsProps) {
+  const { t } = useTranslation();
   const { carList } = useAppSelector((state) => state.user);
   const dispatch = useAppDispatch();
 
@@ -17,7 +19,7 @@ export default function UserCars({ nickname }: UserCarsProps) {
   }, [nickname, dispatch]);
 
   return (
-    <div className="flex flex-col items-center rounded-2xl bg-gray-150 p-4 fade-in">
+    <div className="flex flex-col rounded-2xl bg-gray-150 p-4 fade-in">
       <div className="bg-white p-6 shadow-lg rounded-lg mt-6 max-w-11/12">
         {carList && carList.length > 0 ? (
           <div className="flex flex-wrap gap-4">
@@ -52,7 +54,7 @@ export default function UserCars({ nickname }: UserCarsProps) {
           </div>
         ) : (
           <h2 className="text-center text-gray-500">
-            User doesn't have any cars
+            {t("User doesn't have any cars")}
           </h2>
         )}
       </div>

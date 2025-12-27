@@ -83,17 +83,22 @@ export default function UpcomingAuctions({
                 <p className="text-sm text-gray-600 mb-1">
                   <strong>{t("Max Bid")}:</strong>{" "}
                   {auction.maxBid
-                    ? `$${auction.maxBid.bidAmount.toLocaleString()}`
+                    ? `$${auction.maxBid.bidAmount}`
                     : t("No bids yet")}
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
                   <strong>{t("Start Date")}:</strong>{" "}
-                  {new Date(auction.startDate).toLocaleString()}
+                  {new Date(
+                    new Date(auction.startDate).getTime() + 3 * 60 * 60 * 1000
+                  ).toLocaleString()}
                 </p>
                 <p className="text-sm text-gray-600">
                   <strong>{t("End Date")}:</strong>{" "}
-                  {new Date(auction.endDate).toLocaleString()}
+                  {new Date(
+                    new Date(auction.endDate).getTime() + 3 * 60 * 60 * 1000
+                  ).toLocaleString()}
                 </p>
+
                 {(() => {
                   const now = new Date();
                   const start = new Date(auction.startDate);
@@ -104,11 +109,11 @@ export default function UpcomingAuctions({
                     <span
                       className={`inline-block text-sm font-semibold px-3 py-1 rounded-full mt-3 ${
                         isLive
-                          ? "bg-green-100 text-green-800"
+                          ? "bg-yellow-100 text-yellow-800"
                           : "bg-yellow-100 text-yellow-800"
                       }`}
                     >
-                      {t("Status")}: {isLive ? t("Live") : t("Upcoming-status")}
+                      {t("Status")}: { t("Upcoming-status")}
                     </span>
                   );
                 })()}

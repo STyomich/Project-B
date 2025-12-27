@@ -89,12 +89,17 @@ export default function DeprecatedAuctions({
                 </p>
                 <p className="text-sm text-gray-600 mb-1">
                   <strong>{t("Start Date")}:</strong>{" "}
-                  {new Date(auction.startDate).toLocaleString()}
+                  {new Date(
+                    new Date(auction.startDate).getTime() + 3 * 60 * 60 * 1000
+                  ).toLocaleString()}
                 </p>
                 <p className="text-sm text-gray-600">
                   <strong>{t("End Date")}:</strong>{" "}
-                  {new Date(auction.endDate).toLocaleString()}
+                  {new Date(
+                    new Date(auction.endDate).getTime() + 3 * 60 * 60 * 1000
+                  ).toLocaleString()}
                 </p>
+
                 {(() => {
                   const now = new Date();
                   const start = new Date(auction.startDate);
@@ -109,7 +114,8 @@ export default function DeprecatedAuctions({
                           : "bg-red-100 text-red-800"
                       }`}
                     >
-                      {t("Status")}: {isLive ? t("Live") : t("Deprecated-status")}
+                      {t("Status")}:{" "}
+                      {isLive ? t("Live") : t("Deprecated-status")}
                     </span>
                   );
                 })()}

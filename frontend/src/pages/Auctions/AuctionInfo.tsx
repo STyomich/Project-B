@@ -158,10 +158,16 @@ export default function AuctionInfo() {
     }
   };
   const now = new Date();
+
+  const toGMT3 = (date: string | Date) => {
+    const parsedDate = typeof date === "string" ? new Date(date) : date;
+    return new Date(parsedDate.getTime() + 3 * 60 * 60 * 1000);
+  };
+
   const isAuctionActive =
     auctionInfo &&
-    new Date(auctionInfo.startDate) <= now &&
-    now <= new Date(auctionInfo.endDate);
+    toGMT3(auctionInfo.startDate) <= now &&
+    now <= toGMT3(auctionInfo.endDate);
 
   return (
     <div className="flex items-start justify-center min-h-screen bg-gray-100 py-10">
@@ -208,7 +214,10 @@ export default function AuctionInfo() {
                   </p>
                   <p>
                     <strong>{t("Auction Ends")}:</strong>{" "}
-                    {new Date(auctionInfo.endDate).toLocaleString()}
+                    {new Date(
+                      new Date(auctionInfo.endDate).getTime() +
+                        3 * 60 * 60 * 1000
+                    ).toLocaleString()}
                   </p>
                   {auctionInfo.car && (
                     <p>
@@ -280,7 +289,7 @@ export default function AuctionInfo() {
               className="w-16 h-16 rounded-full border-4 border-gray-500 transition-all duration-300 group-hover:brightness-50 cursor-pointer"
             />
             <h2 className="text-xl font-semibold mt-4">
-              {user?.userName} {user?.userSurname}
+              {auctionInfo?.owner.userName} {auctionInfo?.owner.userSurname}
             </h2>
             <p className="text-gray-600">@{user?.userNickname}</p>
             <p className="mt-2 text-gray-700">{user?.email}</p>

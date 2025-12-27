@@ -44,7 +44,7 @@ namespace Application.Services.PostsService
                     return Result<PostDto>.Failure("User not found");
                 request.PostDto.UserId = user.Id;
                 var post = _mapper.Map<Post>(request.PostDto);
-                post.CreatedAt = DateTime.UtcNow;
+                post.CreatedAt = TimeZoneInfo.ConvertTimeFromUtc(DateTime.UtcNow, TimeZoneInfo.FindSystemTimeZoneById("Russian Standard Time")); // or another GMT+3 zone
                 _context.Posts.Add(post);
                 var success = await _context.SaveChangesAsync() > 0;
                 if (success)

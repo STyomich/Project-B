@@ -152,7 +152,15 @@ export default function PostsList() {
                     {post.user?.userNickname || "Unknown"}
                   </div>
                   <div className="text-sm text-gray-500">
-                    {new Date(post.createdAt).toLocaleString()}
+                    {new Date(post.createdAt).toLocaleString("eu-EU", {
+                      timeZone: "Europe/Kiev", // or 'Europe/Minsk', etc. (GMT+3)
+                      year: "numeric",
+                      month: "2-digit",
+                      day: "2-digit",
+                      hour: "2-digit",
+                      minute: "2-digit",
+                      second: "2-digit",
+                    })}
                   </div>
                 </div>
               </div>
@@ -169,9 +177,7 @@ export default function PostsList() {
                   <span className="material-icons">❤</span>
                   {post.reactionsCount}
                 </button>
-                <span>
-                  {post.comments?.length ?? 0} 💬
-                </span>
+                <span>{post.comments?.length ?? 0} 💬</span>
               </div>
 
               {/* Comments List */}
@@ -182,7 +188,7 @@ export default function PostsList() {
                     className="flex items-start gap-2"
                   >
                     <img
-                      src={userAvatar}
+                      src={comment.user.avatarUrl}
                       alt="avatar"
                       className="w-10 h-10 rounded-full object-cover"
                     />

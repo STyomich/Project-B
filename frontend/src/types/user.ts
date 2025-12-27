@@ -1,5 +1,4 @@
 import { OrganizationShortInfo } from "./organization";
-import { Role } from "./role";
 
 export interface User{
     id: string;
@@ -10,7 +9,7 @@ export interface User{
     email: string;
     avatar: string;
     token: string;
-    role: Role;
+    role: string;
 }
 
 export interface UserLoginValues{

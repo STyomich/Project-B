@@ -3,8 +3,10 @@ import { AuctionInfoListItemDto } from "../../types/auctionInfo";
 import api from "../../services/api";
 import { AxiosResponse } from "axios";
 import { Link } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function UsersAuctionHistory() {
+  const { t } = useTranslation();
   const [auctionHistory, setAuctionHistory] = useState<
     AuctionInfoListItemDto[]
   >([]);
@@ -66,7 +68,7 @@ export default function UsersAuctionHistory() {
           </div>
         ) : (
           <h2 className="text-center text-gray-500">
-            User doesn't have any cars
+            {t("User doesn't have any cars")}
           </h2>
         )}
       </div>
